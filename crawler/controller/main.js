@@ -17,7 +17,7 @@ var controller={};
 // var CZQuizFollow = require('../servlet/CZQuizFollow.js');
 // var CZQuiz = require('../servlet/CZQuiz.js');
 // var CZQuizTags = require('../servlet/CZQuizTags.js');
-var CZAnswer = require('../servlet/CZAnswer.js');
+var mytable = require('../servlet/mytable.js').servlet;
 // var CZList = require('../servlet/CZList.js');
 var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 
@@ -30,13 +30,15 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 // }
 // controller.queryAllQuiz = queryAllQuiz;
 
-//根据问题查询出该问题以及该问题的答案
+
+根据问题查询出该问题以及该问题的答案
 function queryAllAnswer(req, res, next) {
 	var configMap = _systemConfig.configMap;
+	console.log('in coontroller main.js line 36');
 	var quizId = parseInt(req.query.q);
 	async.series([
 		function(callback){
-			CZQuiz.CZQuiz.findOne({
+			mytable.findOne({
 				where : {
 					uid : quizId
 				}

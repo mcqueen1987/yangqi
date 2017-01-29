@@ -7,6 +7,8 @@ var fs = require('fs');
 var path = require('path');
 
 var filePath = path.join(__dirname,'..','config','zhihu.json');
+console.log(fs.readFileSync(filePath, "utf8"));
+
 var cookies = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
 module.exports = cookies;
