@@ -1,5 +1,15 @@
 {
   "username":"root",
+  "password":"rong",
+  "database":"dianping",
+  "options":{
+    "dialect":"mysql",
+    "host":"123.57.80.7",
+    "timezone":"+08:00"
+  }
+}
+/*{
+  "username":"root",
   "password":"root",
   "database":"node-crawler",
   "options":{
@@ -8,3 +18,4 @@
     "timezone":"+08:00"
   }
 }
+*/
