@@ -3,10 +3,14 @@
 var fs = require('fs');
 var path = require('path');
 var db = require('../../utils/dbconfig.js');
+
+var aaa = 'for test only';
 var sequelize = db.sequelize;
 var Sequelize = db.Sequelize;
+
+
 /*
-  aaaaaaaaaaaa test
+bbbbbbbbbbbbbbbbb for test
  */
 
 fs.readdirSync(__dirname)//__dirname,当前文件绝对路径
