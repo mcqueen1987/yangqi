@@ -8,14 +8,3 @@
     "timezone":"+08:00"
   }
 }
-/*{
-  "username":"root",
-  "password":"root",
-  "database":"node-crawler",
-  "options":{
-    "dialect":"mysql",
-    "host":"127.0.0.1",
-    "timezone":"+08:00"
-  }
-}
-*/

@@ -11,7 +11,6 @@ var qs = require('querystring');
 var Entities = require('html-entities').AllHtmlEntities;
 var entities = new Entities();    //解决中文乱码的对象
 var logger = require('../../utils/log4js.js').log4js.getLogger(__filename);
-var cookies = require('../../utils/zhihu.js');
 var servlet={};
 
 var CZUser = require('../servlet/CZUser.js');
