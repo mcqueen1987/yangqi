@@ -2,12 +2,15 @@
  * Created by public on 2016/6/14.
  */
 
+console.log(' in servlet mytable.js 28');
 var moment = require('moment');
 var logger = require('../../utils/log4js.js').log4js.getLogger(__filename);
 var servlet={};
-var CZAnswer = require('../models/index.js').CZAnswer;
+var mytable = require('../models/index.js').mytable;
+console.log(' in servlet mytable.js 28');
+console.log(mytable.toString());
 
-servlet.CZAnswer = CZAnswer;
+servlet.mytable = mytable;
 
 /**
  * 保存方法
@@ -15,7 +18,7 @@ servlet.CZAnswer = CZAnswer;
  * @param map       参数集合
  */
 servlet.save = function(callback,map){
-    CZAnswer.build(map).save().then(function(result){
+    mytable.build(map).save().then(function(result){
         logger.info('保存CZAnswer表成功');
         callback(result);
     }).catch(function(err){
@@ -24,10 +27,11 @@ servlet.save = function(callback,map){
 };
 
 //根据问题id查询全部回答
-servlet.queryByQuiz = function(callback, quizId){
-    CZAnswer.findAll({
+servlet.findAll = function(callback, quizId){
+    console.log(' in servlet mytable.js 28')
+    mytable.findAll({
         where : {
-            quizId : quizId
+            id : quizId
         }
     }).then(function(result){
         callback(null,result);
