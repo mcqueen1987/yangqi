@@ -17,7 +17,7 @@ var controller={};
 // var CZQuizFollow = require('../servlet/CZQuizFollow.js');
 // var CZQuiz = require('../servlet/CZQuiz.js');
 // var CZQuizTags = require('../servlet/CZQuizTags.js');
-var mytable = require('../servlet/mytable.js').servlet;
+var mytable = require('../servlet/mytable.js');
 // var CZList = require('../servlet/CZList.js');
 var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 
@@ -31,28 +31,31 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 // controller.queryAllQuiz = queryAllQuiz;
 
 
-根据问题查询出该问题以及该问题的答案
+//根据问题查询出该问题以及该问题的答案
 function queryAllAnswer(req, res, next) {
 	var configMap = _systemConfig.configMap;
 	console.log('in coontroller main.js line 36');
-	var quizId = parseInt(req.query.q);
+	console.log(req.toString());
+	var quizId = parseInt(req.toString());
+	console.log(quizId);
+	console.log('---------------------');
 	async.series([
 		function(callback){
-			mytable.findOne({
+			console.log(mytable.mytable.toString());
+			mytable.mytable.findOne({
 				where : {
-					uid : quizId
+					id : quizId
 				}
 			}).then(function (result) {
 				callback(null,result);
 			});
 		},		//先删除数据库中与该问题相关的数据
-		function(callback){ CZAnswer.queryByQuiz(callback,quizId); }
 	],function(err,result){
 		if(err){
 			console.log(err);
 			res.send('oops!查询出错了');
 		}else{
-			res.render('detail', {quiz : result[0], result: result[1] ,date: result[0].created_at });
+			console.log({quiz : result[0], result: result[1] ,date: result[0]});
 		}
 	});
 }
