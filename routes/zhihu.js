@@ -28,14 +28,7 @@ router.all('/chance',function(req,res,next){
  */
 router.all('/crawler',function(req,res,next){
 	console.log('-------------crawler-------------');
-	var url = req.query.url;
-	console.log('--------------------------' + url);
-	if(typeof num === "string"){
-		mainController.getPeopleInfo(url);
-		res.send('正在爬取,请稍等几分钟');
-	}else{
-		res.send('请在浏览器输入正确的参数.?q=问题id ');
-	}
+	mainController.getPeopleInfo();
 });
 
 router.post('/api', function(req, res) {
@@ -45,16 +38,6 @@ router.post('/api', function(req, res) {
 	res.send(user_id + ' ' + token + ' ' + geo);
 });
 
-// POST method route
-router.post('/post', function (req, res) {
-	res.send('POST request to the homepage : post');
-});
-
-//已经爬取的问题列表
-router.get('/get',function (req, res) {
-	// mainController.queryAllQuiz(req, res, next);
-	res.send('GET request to the homepage : list');
-});
 
 module.exports = router;
 

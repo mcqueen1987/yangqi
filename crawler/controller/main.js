@@ -34,7 +34,7 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 //根据问题查询出该问题以及该问题的答案
 function queryAllAnswer(req, res, next) {
     var configMap = _systemConfig.configMap;
-    console.log('in controller main.js line 36');
+    console.log('in controller main.js line 36  ---------');
     console.log(req.toString());
     var quizId = parseInt(req.toString());
     console.log(quizId);
@@ -104,13 +104,14 @@ controller.queryAllAnswer = queryAllAnswer;
 function getPeopleInfo() {
     console.log('-----------  getPeopleInfo function ---------------');
     var configMap = _systemConfig.configMap;
-    console.log('----------- in  getpeople info function ---------------');
-    async.eachSeries(peopleArray, function (item, callback) {
+    console.log('----------- in  getpeople info function ---------------' + JSON.stringify(configMap));
+    async.eachSeries(function (item, callback) {
         console.log('--------------------' + item);
         setTimeout(function () {
            peopleInfo(item, callback);
         }, configMap['zhihu_get_time'] + 0);
     }, function (err) {
+        console.log('oops,出错了!!!' + err);
         logger.error('oops,出错了!!!' + err);
     });
 }
@@ -122,6 +123,7 @@ function getPeopleInfo() {
 function peopleInfo(userCode, callback) {
     var configMap = _systemConfig.configMap;
     var uri = configMap[aboutCode] + '';
+    console.log('---------peopleInfo-----------' + uri);
     uri = uri.replace('@id', userCode);
     superagent.get(uri).set(cookies).end(function (err, result) {
         var stateus = result.status + '';
