@@ -12,6 +12,7 @@ var mainController = require('../crawler/controller/main.js');
    // localhost:3000/zhihu/chance?q=待爬取问题id
 // 爬取指定问题信息
 router.all('/chance',function(req,res,next){
+	console.log('---------- in routes zhihu chance function ----------------');
 	var q = req.query.q;
 	var num = parseInt(q);
 	if(typeof num === "number"){
@@ -26,7 +27,7 @@ router.all('/chance',function(req,res,next){
  * 抓取接口
  */
 router.all('/crawler',function(req,res,next){
-	console.log('--------------------------');
+	console.log('-------------crawler-------------');
 	var url = req.query.url;
 	console.log('--------------------------' + url);
 	if(typeof num === "string"){

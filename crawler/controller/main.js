@@ -34,7 +34,7 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 //根据问题查询出该问题以及该问题的答案
 function queryAllAnswer(req, res, next) {
     var configMap = _systemConfig.configMap;
-    console.log('in coontroller main.js line 36');
+    console.log('in controller main.js line 36');
     console.log(req.toString());
     var quizId = parseInt(req.toString());
     console.log(quizId);
@@ -102,6 +102,7 @@ controller.queryAllAnswer = queryAllAnswer;
  * 查询list表中符合条件的数据放入数组中,循环处理
  */
 function getPeopleInfo() {
+    console.log('-----------  getPeopleInfo function ---------------');
     var configMap = _systemConfig.configMap;
     console.log('----------- in  getpeople info function ---------------');
     async.eachSeries(peopleArray, function (item, callback) {
