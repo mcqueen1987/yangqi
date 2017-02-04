@@ -22,19 +22,30 @@ router.all('/chance',function(req,res,next){
 	}
 });
 
+/**
+ * 抓取接口
+ */
+router.all('/crawler',function(req,res,next){
+	console.log('--------------------------');
+	var url = req.query.url;
+	console.log('--------------------------' + url);
+	if(typeof num === "string"){
+		mainController.getPeopleInfo(url);
+		res.send('正在爬取,请稍等几分钟');
+	}else{
+		res.send('请在浏览器输入正确的参数.?q=问题id ');
+	}
+});
+
+// POST method route
+router.post('/post', function (req, res) {
+	res.send('POST request to the homepage : post');
+});
+
 //已经爬取的问题列表
-router.get('/list',function (req, res, next) {
-	mainController.queryAllQuiz(req, res, next);
-});
-
-//查看指定问题的回答
-router.get('/by',function (req, res, next) {
-	mainController.queryAllAnswer(req, res, next);
-});
-
-//查看关注该问题的用户列表
-router.get('/followList',function (req, res, next) {
-	mainController.queryAllFollow(req, res, next);
+router.get('/get',function (req, res) {
+	// mainController.queryAllQuiz(req, res, next);
+	res.send('GET request to the homepage : list');
 });
 
 module.exports = router;
