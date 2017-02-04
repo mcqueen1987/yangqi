@@ -38,6 +38,13 @@ router.all('/crawler',function(req,res,next){
 	}
 });
 
+router.post('/api', function(req, res) {
+	var user_id = req.body.id;
+	var token = req.body.token;
+	var geo = req.body.innerHTML;
+	res.send(user_id + ' ' + token + ' ' + geo);
+});
+
 // POST method route
 router.post('/post', function (req, res) {
 	res.send('POST request to the homepage : post');
