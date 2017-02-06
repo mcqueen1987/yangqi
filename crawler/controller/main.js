@@ -67,7 +67,7 @@ function saveMyTable(map) {
     async.series([
         function (callback) {
             console.log(mytable.mytable.toString());
-            mytable.save(function(result){
+            mytable.mytable.save(function(result){
                 console.log(' --------------- call back success in sava data ---------');
             },map).then(function (result) {
                 callback(null, result);
@@ -205,14 +205,6 @@ function peopleInfo(callback) {
                     logger.error('出错的html:' + result.text);
                     console.dir(e);
                     console.error('错误' + e);
-                    CZError.save(function () {
-                    }, {
-                        type: '错误',
-                        filname: __filename,
-                        uid: uri,
-                        maybe: '获取用户详细页面内容出错,截取数据try-catch出错',
-                        msg: e + ''
-                    });
                     callback(null);
                 }
             }
