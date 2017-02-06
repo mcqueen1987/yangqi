@@ -61,42 +61,66 @@ function queryAllAnswer(req, res, next) {
 }
 controller.queryAllAnswer = queryAllAnswer;
 
-// //根据问题id查询关注该用户的用户列表
-// function queryAllFollow(req, res, next) {
-// 	var configMap = _systemConfig.configMap;
-// 	var quizId = parseInt(req.query.q);
-// 	async.series([
-// 		function(callback){
-// 			CZQuiz.CZQuiz.findOne({
-// 				where : {
-// 					uid : quizId
-// 				}
-// 			}).then(function (result) {
-// 				callback(null,result);
-// 			});
-// 		},		//先删除数据库中与该问题相关的数据
-// 		function(callback){
-// 			CZQuizFollow.CZQuizFollow.findAll({
-// 				where : {
-// 					quizId : quizId
-// 				}
-// 			}).then(function (result) {
-// 				callback(null,result);
-// 			});
-// 		}
-// 	],function(err,result){
-// 		if(err){
-// 			console.log(err);
-// 			res.send('oops!查询出错了');
-// 		}else{
-// 			res.render('followList', {quiz : result[0], result: result[1] });
-// 		}
-// 	});
-// }
-// controller.queryAllFollow = queryAllFollow;
-
-// module.exports = controller;
-
+/**
+ * 传入superagent抓取成功后的返回值
+ * 返回存有相应数据的map
+ * @param result  superagent返回值
+ * @param uri     抓取的页面
+ * @returns {{}}
+ */
+var crawlerPeopleAbout = function (result, uri) {
+    var cZUser = {};
+    var $ = cheerio.load(result.text);
+    // var rule = /bdServerTime(\S*)<\/script/;
+    // var uid = JSON.parse(regexStr(result.text, rule));
+    // cZUser.uid = uid[0];
+    // cZUser.ucode = uid[1];
+    cZUser.href = uri;
+    cZUser.title = $('title').text();
+    // cZUser.avatar = $('.zm-profile-header-main .body img').attr('src');
+    // cZUser.brief = $('.title-section.ellipsis span').text();
+    // var describe = $('.zm-profile-header-main .body  .info-wrap .description span').html();
+    // if (describe && describe.length > 0) cZUser.describe = entities.decode(describe);
+    // if ($('.gender .icon-profile-female').length == 1) {
+    //     cZUser.sex = '女';
+    // } else if ($('.gender .icon-profile-male').length == 1) {
+    //     cZUser.sex = '男';
+    // } else {
+    //     cZUser.sex = '未知';
+    // }
+    // var followees = $('.zu-main-sidebar .zm-profile-side-following .item:nth-child(1)').children('strong').text();
+    // cZUser.followees = followees;
+    // var followers = $('.zu-main-sidebar .zm-profile-side-following .item:nth-child(2)').children('strong').text();
+    // cZUser.followers = followers;
+    // var columns = $('.zm-profile-side-columns').prev('.zm-profile-side-section-title').children('a').children('strong').html();
+    // if (columns) {
+    //     cZUser.columns = columns;
+    // }
+    // var topics = $('.zm-profile-side-topics').prev('.zm-profile-side-section-title').children('a').children('strong').html();
+    // if (topics) {
+    //     cZUser.topics = (topics + '').replace(/[^0-9]+/ig, "");
+    // }
+    // cZUser.agree = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(3)').children('strong').text();
+    // cZUser.thanks = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(5)').children('strong').text();
+    // cZUser.asks = $('.profile-navbar a:nth-child(2) .num').text();
+    // cZUser.answers = $('.profile-navbar a:nth-child(3) .num').text();
+    // cZUser.posts = $('.profile-navbar a:nth-child(4) .num').text();
+    // cZUser.view = $('div.zg-wrap.zu-main.clearfix > div.zu-main-sidebar .zm-profile-side-section span.zg-gray-normal strong').text();
+    // var weibo = $('.weibo-wrap a').attr('href');
+    // if (weibo) cZUser.weibo = weibo;
+    // cZUser.location = $('div.zu-main-content > div > div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div > div:nth-child(1) > span.info-wrap > span.location.item a').text();
+    // cZUser.business = $('div.zu-main-content > div > div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div > div:nth-child(1) > span.info-wrap > span.business.item > a').text();
+    // cZUser.employment = $('div.zu-main-content > div > div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div.items > div:nth-child(2) > span.info-wrap > span.employment.item').text();
+    // cZUser.positions = $('div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div.items > div:nth-child(2) > span.info-wrap > span.position.item > a').text();
+    // var education = $('body > div.zg-wrap.zu-main.clearfix > div.zu-main-content > div > div.ProfileCard.zm-profile-details-wrap > div.zm-profile-section-list.zm-profile-details > div:nth-child(4) > div > div').html();
+    // if (education) cZUser.education = education;
+    // cZUser.educationExtra = $('body > div.zg-wrap.zu-main.clearfix > div.zu-main-content > div > div.ProfileCard.zm-profile-details-wrap > div.zm-profile-section-list.zm-profile-details > div:nth-child(4) > div > div > div > div ').children().eq(2).text();
+    // cZUser.collect = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(7)').children('strong').text().replace(/[^0-9]+/ig, "");
+    // cZUser.share = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(9)').children('strong').text();
+    // var marked = $('.zm-profile-header-marked .zg-link-litblue-normal').text();
+    // cZUser.marked = marked;
+    return cZUser;
+}
 
 /**
  * 查询list表中符合条件的数据放入数组中,循环处理
@@ -166,66 +190,6 @@ function peopleInfo(callback) {
         });
 }
 
-/**
- * 传入superagent抓取成功后的返回值
- * 返回存有相应数据的map
- * @param result  superagent返回值
- * @param uri     抓取的页面
- * @returns {{}}
- */
-var crawlerPeopleAbout = function (result, uri) {
-    var cZUser = {};
-    var $ = cheerio.load(result.text);
-    // var rule = /bdServerTime(\S*)<\/script/;
-    // var uid = JSON.parse(regexStr(result.text, rule));
-    // cZUser.uid = uid[0];
-    // cZUser.ucode = uid[1];
-    cZUser.href = uri;
-    cZUser.title = $('title').text();
-    // cZUser.avatar = $('.zm-profile-header-main .body img').attr('src');
-    // cZUser.brief = $('.title-section.ellipsis span').text();
-    // var describe = $('.zm-profile-header-main .body  .info-wrap .description span').html();
-    // if (describe && describe.length > 0) cZUser.describe = entities.decode(describe);
-    // if ($('.gender .icon-profile-female').length == 1) {
-    //     cZUser.sex = '女';
-    // } else if ($('.gender .icon-profile-male').length == 1) {
-    //     cZUser.sex = '男';
-    // } else {
-    //     cZUser.sex = '未知';
-    // }
-    // var followees = $('.zu-main-sidebar .zm-profile-side-following .item:nth-child(1)').children('strong').text();
-    // cZUser.followees = followees;
-    // var followers = $('.zu-main-sidebar .zm-profile-side-following .item:nth-child(2)').children('strong').text();
-    // cZUser.followers = followers;
-    // var columns = $('.zm-profile-side-columns').prev('.zm-profile-side-section-title').children('a').children('strong').html();
-    // if (columns) {
-    //     cZUser.columns = columns;
-    // }
-    // var topics = $('.zm-profile-side-topics').prev('.zm-profile-side-section-title').children('a').children('strong').html();
-    // if (topics) {
-    //     cZUser.topics = (topics + '').replace(/[^0-9]+/ig, "");
-    // }
-    // cZUser.agree = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(3)').children('strong').text();
-    // cZUser.thanks = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(5)').children('strong').text();
-    // cZUser.asks = $('.profile-navbar a:nth-child(2) .num').text();
-    // cZUser.answers = $('.profile-navbar a:nth-child(3) .num').text();
-    // cZUser.posts = $('.profile-navbar a:nth-child(4) .num').text();
-    // cZUser.view = $('div.zg-wrap.zu-main.clearfix > div.zu-main-sidebar .zm-profile-side-section span.zg-gray-normal strong').text();
-    // var weibo = $('.weibo-wrap a').attr('href');
-    // if (weibo) cZUser.weibo = weibo;
-    // cZUser.location = $('div.zu-main-content > div > div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div > div:nth-child(1) > span.info-wrap > span.location.item a').text();
-    // cZUser.business = $('div.zu-main-content > div > div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div > div:nth-child(1) > span.info-wrap > span.business.item > a').text();
-    // cZUser.employment = $('div.zu-main-content > div > div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div.items > div:nth-child(2) > span.info-wrap > span.employment.item').text();
-    // cZUser.positions = $('div.zm-profile-header.ProfileCard > div.zm-profile-header-main > div.body.clearfix > div > div > div.items > div:nth-child(2) > span.info-wrap > span.position.item > a').text();
-    // var education = $('body > div.zg-wrap.zu-main.clearfix > div.zu-main-content > div > div.ProfileCard.zm-profile-details-wrap > div.zm-profile-section-list.zm-profile-details > div:nth-child(4) > div > div').html();
-    // if (education) cZUser.education = education;
-    // cZUser.educationExtra = $('body > div.zg-wrap.zu-main.clearfix > div.zu-main-content > div > div.ProfileCard.zm-profile-details-wrap > div.zm-profile-section-list.zm-profile-details > div:nth-child(4) > div > div > div > div ').children().eq(2).text();
-    // cZUser.collect = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(7)').children('strong').text().replace(/[^0-9]+/ig, "");
-    // cZUser.share = $('.zm-profile-details-reputation .zm-profile-module-desc span:nth-child(9)').children('strong').text();
-    // var marked = $('.zm-profile-header-marked .zg-link-litblue-normal').text();
-    // cZUser.marked = marked;
-    return cZUser;
-}
 
 /**
  * 正则截取数据
