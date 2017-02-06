@@ -42,7 +42,7 @@ function queryAllAnswer(req, res, next) {
     async.series([
         function (callback) {
             console.log(mytable.mytable.toString());
-            mytable.mytable.findOne({
+            mytable.mytable.findAll({
                 where: {
                     id: quizId
                 }
@@ -60,6 +60,36 @@ function queryAllAnswer(req, res, next) {
     });
 }
 controller.queryAllAnswer = queryAllAnswer;
+
+//根据问题查询出该问题以及该问题的答案
+function saveMyTable(req, res, next) {
+    console.log('in saveMyTable main.js line 36  ---------');
+    console.log(req.toString());
+    async.series([
+        function (callback) {
+            console.log(mytable.mytable.toString());
+            mytable.mytable.save(function(result){
+                // CZList.save(function(){},{
+                // 	uid : result.uid,
+                // 	code : 'zhihu_people_about_url'
+                // });
+            },{
+                firstName : '222222',
+                lastName : '555555555'
+            }).then(function (result) {
+                callback(null, result);
+            });
+        },		//先删除数据库中与该问题相关的数据
+    ], function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send('oops!查询出错了');
+        } else {
+            console.log({quiz: result[0], result: result[1], date: result[0]});
+        }
+    });
+}
+controller.saveMyTable = saveMyTable;
 
 /**
  * 传入superagent抓取成功后的返回值
@@ -133,7 +163,11 @@ function getPeopleInfo() {
         setTimeout(function () {
             console.log('------getPeopleInfo  --------async.eachSeries ------');
             peopleInfo(function(msg){
-                console.log(msg);
+                if(msg == 'success'){
+
+                }else{
+                    console.log(msg);
+                }
             });
         }, 3000),
     ], function(err) { //This is the final callback
