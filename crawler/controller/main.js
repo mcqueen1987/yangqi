@@ -62,28 +62,21 @@ function queryAllAnswer(req, res, next) {
 controller.queryAllAnswer = queryAllAnswer;
 
 //根据问题查询出该问题以及该问题的答案
-function saveMyTable(req, res, next) {
+function saveMyTable(map) {
     console.log('in saveMyTable main.js line 36  ---------');
-    console.log(req.toString());
     async.series([
         function (callback) {
             console.log(mytable.mytable.toString());
             mytable.mytable.save(function(result){
-                // CZList.save(function(){},{
-                // 	uid : result.uid,
-                // 	code : 'zhihu_people_about_url'
-                // });
-            },{
-                firstName : '222222',
-                lastName : '555555555'
-            }).then(function (result) {
+                console.log(' --------------- call back success in sava data ---------');
+            },map).then(function (result) {
                 callback(null, result);
             });
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
         if (err) {
             console.log(err);
-            res.send('oops!查询出错了');
+            res.send('oops! save data 出错了');
         } else {
             console.log({quiz: result[0], result: result[1], date: result[0]});
         }
@@ -163,10 +156,10 @@ function getPeopleInfo() {
         setTimeout(function () {
             console.log('------getPeopleInfo  --------async.eachSeries ------');
             peopleInfo(function(msg){
-                if(msg == 'success'){
-
+                if(msg === 'success'){
+                    console.log('===============get parse data success===============');
                 }else{
-                    console.log(msg);
+                    console.log('===============get parse data fail===============');
                 }
             });
         }, 3000),
@@ -204,11 +197,11 @@ function peopleInfo(callback) {
                     console.log('---------用户个人中心地址-----------' + uri);
                     var parsedData = crawlerPeopleAbout(result, uri);
                     console.log('---------peopleInfo-----------' + JSON.stringify(parsedData));
-                    // CZUser.save(function (re) {
-                    //     //爬取字符串完成后,删除list表的数据,防止重复爬取
-                    //     CZList.delByCode(callback, userCode, aboutCode);
-                    // }, cZUser);
-                    callback('success');
+                    saveMyTable({
+                        firstName : '222222',
+                        lastName : '555555555'
+                    })
+                    callback("success");
                 } catch (e) {
                     logger.error('出错的html:' + result.text);
                     console.dir(e);
