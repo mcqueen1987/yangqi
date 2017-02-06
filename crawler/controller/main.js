@@ -66,8 +66,7 @@ function saveMyTable(map) {
     console.log('in saveMyTable main.js line 36  ---------');
     async.series([
         function (callback) {
-            console.log(mytable.mytable.toString());
-            mytable.mytable.save(function(result){
+            mytable.save(function(result){
                 console.log(' --------------- call back success in sava data ---------');
             },map).then(function (result) {
                 callback(null, result);
