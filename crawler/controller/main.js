@@ -105,12 +105,12 @@ function getPeopleInfo() {
     console.log('-----------  getPeopleInfo function ---------------');
     var configMap = _systemConfig.configMap;
     console.log('----------- in  getpeople info function ---------------' + JSON.stringify(configMap));
-    async.eachSeries(function (callback) {
-        console.log('------getPeopleInfo  --------async.eachSeries ------');
+    async.series([
         setTimeout(function () {
-           peopleInfo(callback);
-        }, 3000);
-    }, function (err) {
+            console.log('------getPeopleInfo  --------async.eachSeries ------');
+            peopleInfo(callback);
+        }, 3000),
+    ], function(err) { //This is the final callback
         console.log('oops,出错了!!!' + err);
         logger.error('oops,出错了!!!' + err);
     });
@@ -141,6 +141,7 @@ function peopleInfo(callback) {
                 //防止出现意外,导致服务停止,try-catch处理
                 try {
                     logger.info('用户个人中心地址' + uri);
+                    console.log('---------用户个人中心地址-----------' + uri);
                     var parsedData = crawlerPeopleAbout(result, uri);
                     console.log('---------peopleInfo-----------' + JSON.stringify(parsedData));
                     // CZUser.save(function (re) {
@@ -175,12 +176,12 @@ function peopleInfo(callback) {
 var crawlerPeopleAbout = function (result, uri) {
     var cZUser = {};
     var $ = cheerio.load(result.text);
-    var rule = /bdServerTime(\S*)<\/script/;
-    var uid = JSON.parse(regexStr(result.text, rule));
-    cZUser.uid = uid[0];
+    // var rule = /bdServerTime(\S*)<\/script/;
+    // var uid = JSON.parse(regexStr(result.text, rule));
+    // cZUser.uid = uid[0];
     // cZUser.ucode = uid[1];
-    // cZUser.href = uri;
-    // cZUser.name = $('.title-section.ellipsis a').text();
+    cZUser.href = uri;
+    cZUser.title = $('title').text();
     // cZUser.avatar = $('.zm-profile-header-main .body img').attr('src');
     // cZUser.brief = $('.title-section.ellipsis span').text();
     // var describe = $('.zm-profile-header-main .body  .info-wrap .description span').html();
