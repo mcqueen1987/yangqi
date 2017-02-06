@@ -193,10 +193,9 @@ function peopleInfo(callback) {
             } else {
                 //防止出现意外,导致服务停止,try-catch处理
                 try {
-                    logger.info('用户个人中心地址' + uri);
-                    console.log('---------用户个人中心地址-----------' + uri);
+                    logger.info('用户个人中心地址  line 196 ' + uri);
                     var parsedData = crawlerPeopleAbout(result, uri);
-                    console.log('---------peopleInfo-----------' + JSON.stringify(parsedData));
+                    logger.info('用户个人中心地址  line 198 ' + + JSON.stringify(parsedData));
                     saveMyTable({
                         firstName : '222222',
                         lastName : '555555555'
