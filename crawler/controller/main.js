@@ -15,15 +15,12 @@ var controller = {};
 var mytable = require('../servlet/mytable.js');
 var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 
-
 //根据问题查询出该问题以及该问题的答案
 function queryAllAnswer(req, res, next) {
     var configMap = _systemConfig.configMap;
     console.log('in controller main.js line 36  ---------');
     console.log(req.toString());
     var quizId = parseInt(req.toString());
-    console.log(quizId);
-    console.log('---------------------');
     async.series([
         function (callback) {
             console.log(mytable.mytable.toString());
@@ -47,12 +44,12 @@ function queryAllAnswer(req, res, next) {
 controller.queryAllAnswer = queryAllAnswer;
 
 //根据问题查询出该问题以及该问题的答案
-function saveMyTable(map) {
-    console.log('in saveMyTable main.js line 36  ---------');
+function saveShopListToDB(map) {
+    console.log('in saveShopListToDB main.js line 36  ---------');
     async.series([
         function (callback) {
             mytable.save(function(result){
-                console.log(' --------------- call back success in sava data ---------');
+                console.log(' ---------------saveShopListToDB call back success in sava data ---------');
             },map);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
@@ -64,7 +61,7 @@ function saveMyTable(map) {
         }
     });
 }
-controller.saveMyTable = saveMyTable;
+controller.saveShopListToDB = saveShopListToDB;
 
 /**
  * 传入superagent抓取成功后的返回值
@@ -73,20 +70,19 @@ controller.saveMyTable = saveMyTable;
  * @param uri     抓取的页面
  * @returns {{}}
  */
-var crawlerPeopleAbout = function (result, uri) {
-    var cZUser = {};
+var crawlerShopList = function (result, uri) {
+    var shopList = {};
     var $ = cheerio.load(result.text);
-    cZUser.href = uri;
-    cZUser.title = $('title').text();
-    return cZUser;
+    shopList.href = uri;
+    shopList.title = $('title').text();
+    return shopList;
 }
 
-
 /**
- * 传入用户的个人中心详细页面url,截取内容并且保存到数据库中
+ * 根据条件获得工作室列表
  * @param uri
  */
-function peopleInfo(callback) {
+function doGetShopList(callback) {
     var uri = 'www.baidu.com';
     console.log('---------peopleInfo-----------' + uri);
     superagent
@@ -107,9 +103,9 @@ function peopleInfo(callback) {
                 //防止出现意外,导致服务停止,try-catch处理
                 try {
                     logger.info('用户个人中心地址  line 196 ' + uri);
-                    var parsedData = crawlerPeopleAbout(result, uri);
+                    var parsedData = crawlerShopList(result, uri);
                     logger.info('用户个人中心地址  line 198 ' + + JSON.stringify(parsedData));
-                    saveMyTable({
+                    saveShopListToDB({
                         firstName : '22227777777722',
                         lastName : '555577777777755555'
                     });
@@ -125,16 +121,16 @@ function peopleInfo(callback) {
 }
 
 /**
- * 查询list表中符合条件的数据放入数组中,循环处理
+ * 根据搜索条件获的某地区工作室列表
  */
-function getPeopleInfo() {
+function getShopList() {
     console.log('-----------  getPeopleInfo function ---------------');
     var configMap = _systemConfig.configMap;
     console.log('----------- in  getpeople info function ---------------' + JSON.stringify(configMap));
     async.series([
         setTimeout(function () {
             console.log('------getPeopleInfo  --------async.eachSeries ------');
-            peopleInfo(function(msg){
+            doGetShopList(function(msg){
                 if(msg === 'success'){
                     console.log('===============get parse data success===============');
                 }else{
@@ -148,8 +144,8 @@ function getPeopleInfo() {
     });
 }
 
-controller.peopleInfo = peopleInfo;
-controller.getPeopleInfo = getPeopleInfo;
+controller.doGetShopList = doGetShopList;
+controller.getShopList = getShopList;
 module.exports = controller;
 
 

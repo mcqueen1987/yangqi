@@ -4,15 +4,12 @@
 
 var express = require('express');
 var router = express.Router();
-// var peopleController = require('../crawler/controller/user.js');
-// var quizController = require('../crawler/controller/quiz.js');
 var mainController = require('../crawler/controller/main.js');
-// var followController = require('../crawler/controller/follow.js');
 
-   // localhost:3000/zhihu/chance?q=待爬取问题id
+// localhost:3000/dianping/chance?q=待爬取问题id
 // 爬取指定问题信息
 router.all('/chance',function(req,res,next){
-	console.log('---------- in routes zhihu chance function ----------------');
+	console.log('---------- in routes dianping chance function ----------------');
 	var q = req.query.q;
 	var num = parseInt(q);
 	if(typeof num === "number"){
@@ -28,7 +25,7 @@ router.all('/chance',function(req,res,next){
  */
 router.all('/crawler',function(req,res,next){
 	console.log('-------------crawler-------------');
-	mainController.getPeopleInfo();
+	mainController.getShopList();
 });
 
 router.post('/api', function(req, res) {
@@ -37,7 +34,6 @@ router.post('/api', function(req, res) {
 	var geo = req.body.innerHTML;
 	res.send(user_id + ' ' + token + ' ' + geo);
 });
-
 
 module.exports = router;
 
