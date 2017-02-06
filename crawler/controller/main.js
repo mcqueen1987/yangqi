@@ -132,7 +132,9 @@ function getPeopleInfo() {
     async.series([
         setTimeout(function () {
             console.log('------getPeopleInfo  --------async.eachSeries ------');
-            peopleInfo(callback);
+            peopleInfo(function(msg){
+                console.log(msg);
+            });
         }, 3000),
     ], function(err) { //This is the final callback
         console.log('oops,出错了!!!' + err);
@@ -172,6 +174,7 @@ function peopleInfo(callback) {
                     //     //爬取字符串完成后,删除list表的数据,防止重复爬取
                     //     CZList.delByCode(callback, userCode, aboutCode);
                     // }, cZUser);
+                    callback('success');
                 } catch (e) {
                     logger.error('出错的html:' + result.text);
                     console.dir(e);
