@@ -68,9 +68,7 @@ function saveMyTable(map) {
         function (callback) {
             mytable.save(function(result){
                 console.log(' --------------- call back success in sava data ---------');
-            },map).then(function (result) {
-                callback(null, result);
-            });
+            },map));
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
         if (err) {
@@ -198,7 +196,7 @@ function peopleInfo(callback) {
                     saveMyTable({
                         firstName : '222222',
                         lastName : '555555555'
-                    })
+                    });
                     callback("success");
                 } catch (e) {
                     logger.error('出错的html:' + result.text);
