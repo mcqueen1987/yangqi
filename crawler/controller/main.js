@@ -71,8 +71,10 @@ controller.saveShopListToDB = saveShopListToDB;
  * @returns {{}}
  */
 var crawlerShopList = function (result, uri) {
+    console.log('---------crawlerShopList line 74 -----------' + uri);
     var shopList = {};
     var $ = cheerio.load(result.text);
+    logger.info(result.text);
     shopList.href = uri;
     shopList.title = $('title').text();
     return shopList;
@@ -83,7 +85,7 @@ var crawlerShopList = function (result, uri) {
  * @param uri
  */
 function doGetShopList(callback) {
-    var uri = 'www.baidu.com';
+    var uri = 'http://www.dianping.com/search/keyword/2/0_%E5%A4%A7%E6%82%A6%E5%9F%8E%20%E5%81%A5%E8%BA%AB%E5%B7%A5%E4%BD%9C%E5%AE%A4';
     console.log('---------peopleInfo-----------' + uri);
     superagent
         .get(uri)
