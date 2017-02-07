@@ -75,9 +75,10 @@ var crawlerShopList = function (result, uri) {
     var shopList = {};
     var $ = cheerio.load(result.text);
     // logger.info(result.text);
-    var list = {};
+    var shop_list_data = [];
     $('#shop-all-list').find("li").each(
         function (index, element) {
+            var list = {};
             list.shop_name = $(element).find(".txt .tit a").attr('title');
             list.shop_href = $(element).find(".txt .tit a").attr('href');
             list.shop_rank_stars = $(element).find(".txt .comment span").attr('title');
@@ -86,9 +87,10 @@ var crawlerShopList = function (result, uri) {
             list.shop_tag = $(element).find(".txt .tag-addr a span").children().first().text();
             list.shop_add_tag = $(element).find(".txt .tag-addr a span").children().eq(1).text();
             list.shop_add = $(element).find(".txt .tag-addr .addr").text();
+            shop_list_data.push(list);
         }
     );
-    logger.info(JSON.stringify(list));
+    logger.info(JSON.stringify(shop_list_data));
     shopList.href = uri;
     shopList.shoplist = list;
     return shopList;
