@@ -17,13 +17,21 @@ servlet.mytable = mytable;
  * @param callback  回调函数
  * @param map       参数集合
  */
-servlet.save = function(callback,map){
-    mytable.build(map).save().then(function(result){
-        logger.info('保存CZAnswer表成功');
-        callback(result);
-    }).catch(function(err){
-        logger.error('保存回答表出错:'+err);
+servlet.save = function(callback,maps){
+    maps.forEach(function(value, index){
+        mytable.build(value).save().then(function(result){
+            logger.info('保存 db 表成功' + index);
+            callback(result);
+        }).catch(function(err){
+            logger.error('保存回答表出错:'+err);
+        });
     });
+    // mytable.build(map).save().then(function(result){
+    //     logger.info('保存CZAnswer表成功');
+    //     callback(result);
+    // }).catch(function(err){
+    //     logger.error('保存回答表出错:'+err);
+    // });
 };
 
 //根据问题id查询全部回答
