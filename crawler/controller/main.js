@@ -74,7 +74,16 @@ var crawlerShopList = function (result, uri) {
     console.log('---------crawlerShopList line 74 -----------' + uri);
     var shopList = {};
     var $ = cheerio.load(result.text);
-    logger.info(result.text);
+    // logger.info(result.text);
+    var list = [];
+    $('#shop-all-list').find("li").each(
+        function (index, element) {
+            list.push($(element).find(".txt .tit a").attr('title'));
+        }
+    );
+    console.dir(list);
+    logger.info(JSON.stringify(list))
+
     shopList.href = uri;
     shopList.title = $('title').text();
     return shopList;
