@@ -49,7 +49,7 @@ function saveShopListToDB(map) {
     async.series([
         function (callback) {
             mytable.save(function (result) {
-                console.log(' ---------------saveShopListToDB call back success in sava data ---------');
+                console.log(' --------saveShopListToDB call back success in sava data ---------' + result);
             }, map);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
@@ -82,17 +82,17 @@ var crawlerShopList = function (result, uri) {
             list.shop_name = $(element).find(".txt .tit a").attr('title');
             list.shop_href = $(element).find(".txt .tit a").attr('href');
             list.shop_rank_stars = $(element).find(".txt .comment span").attr('title');
-            list.shop_comment_num = $(element).find(".txt .comment a b").text();
+            list.shop_comment_num = $(element).find(".txt .comment a").children().first().text();
             list.shop_comment_href = $(element).find(".txt .comment a").attr("href");
-            list.shop_tag = $(element).find(".txt .tag-addr a span").children().first().text();
-            list.shop_add_tag = $(element).find(".txt .tag-addr a span").children().eq(1).text();
+            list.shop_tag = $(element).find(".txt .tag-addr .tag").eq(0).text();
+            list.shop_add_tag = $(element).find(".txt .tag-addr .tag").eq(1).text();
             list.shop_add = $(element).find(".txt .tag-addr .addr").text();
             shop_list_data.push(list);
         }
     );
     logger.info(JSON.stringify(shop_list_data));
     shopList.href = uri;
-    shopList.shoplist = list;
+    shopList.shoplist = shop_list_data;
     return shopList;
 }
 
@@ -118,15 +118,9 @@ function doGetShopList(callback) {
                 logger.error('result.body.message:' + result.body.message);
                 callback(null);
             } else {
-                //防止出现意外,导致服务停止,try-catch处理
                 try {
-                    logger.info('用户个人中心地址  line 196 ' + uri);
                     var parsedData = crawlerShopList(result, uri);
-                    logger.info('用户个人中心地址  line 198 ' + +JSON.stringify(parsedData));
-                    saveShopListToDB({
-                        firstName: '22227777777722',
-                        lastName: '555577777777755555'
-                    });
+                    saveShopListToDB(parsedData);
                     callback("success");
                 } catch (e) {
                     logger.error('出错的html:' + result.text);
