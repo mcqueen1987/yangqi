@@ -48,9 +48,9 @@ function saveShopListToDB(map) {
     console.log('in saveShopListToDB main.js line 36  ---------');
     async.series([
         function (callback) {
-            mytable.save(function(result){
+            mytable.save(function (result) {
                 console.log(' ---------------saveShopListToDB call back success in sava data ---------');
-            },map);
+            }, map);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
         if (err) {
@@ -78,14 +78,14 @@ var crawlerShopList = function (result, uri) {
     var list = {};
     $('#shop-all-list').find("li").each(
         function (index, element) {
-            list.push('shop_name', $(element).find(".txt .tit a").attr('title'));
-            list.push('shop_href', $(element).find(".txt .tit a").attr('href'));
-            list.push('shop_rank_stars', $(element).find(".txt .comment span").attr('title'));
-            list.push('shop_comment_num', $(element).find(".txt .comment a b").text());
-            list.push('shop_comment_href', $(element).find(".txt .comment a").attr("href"));
-            list.push('shop_tag', $(element).find(".txt .tag-addr a span").children().first().text());
-            list.push('shop_add_tag', $(element).find(".txt .tag-addr a span").children().eq(1).text());
-            list.push('shop_add', $(element).find(".txt .tag-addr .addr").text());
+            list['shop_name'] = $(element).find(".txt .tit a").attr('title');
+            list['shop_href'] = $(element).find(".txt .tit a").attr('href');
+            list['shop_rank_stars'] = $(element).find(".txt .comment span").attr('title');
+            list['shop_comment_num'] = $(element).find(".txt .comment a b").text();
+            list['shop_comment_href'] = $(element).find(".txt .comment a").attr("href");
+            list['shop_tag'] = $(element).find(".txt .tag-addr a span").children().first().text();
+            list['shop_add_tag'] = $(element).find(".txt .tag-addr a span").children().eq(1).text();
+            list['shop_add'] = $(element).find(".txt .tag-addr .addr").text();
         }
     );
     logger.info(JSON.stringify(list))
@@ -103,7 +103,7 @@ function doGetShopList(callback) {
     console.log('---------peopleInfo-----------' + uri);
     superagent
         .get(uri)
-        .end(function (err, result){
+        .end(function (err, result) {
             var stateus = result.status + '';
             if (err) {
                 logger.error('superagent抓取知乎用户详细信息出错:' + err);
@@ -120,10 +120,10 @@ function doGetShopList(callback) {
                 try {
                     logger.info('用户个人中心地址  line 196 ' + uri);
                     var parsedData = crawlerShopList(result, uri);
-                    logger.info('用户个人中心地址  line 198 ' + + JSON.stringify(parsedData));
+                    logger.info('用户个人中心地址  line 198 ' + +JSON.stringify(parsedData));
                     saveShopListToDB({
-                        firstName : '22227777777722',
-                        lastName : '555577777777755555'
+                        firstName: '22227777777722',
+                        lastName: '555577777777755555'
                     });
                     callback("success");
                 } catch (e) {
@@ -146,15 +146,15 @@ function getShopList() {
     async.series([
         setTimeout(function () {
             console.log('------getPeopleInfo  --------async.eachSeries ------');
-            doGetShopList(function(msg){
-                if(msg === 'success'){
+            doGetShopList(function (msg) {
+                if (msg === 'success') {
                     console.log('===============get parse data success===============');
-                }else{
+                } else {
                     console.log('===============get parse data fail===============');
                 }
             });
         }, 3000),
-    ], function(err) { //This is the final callback
+    ], function (err) { //This is the final callback
         console.log('oops,出错了!!!' + err);
         logger.error('oops,出错了!!!' + err);
     });
