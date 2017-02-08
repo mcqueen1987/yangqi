@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var mainController = require('../crawler/controller/main.js');
+var groupbuyController = require('../crawler/controller/groupbuy.js');
 
 // localhost:3000/dianping/chance?q=待爬取问题id
 // 爬取指定问题信息
@@ -23,9 +24,17 @@ router.all('/chance',function(req,res,next){
 /**
  * 抓取接口
  */
-router.all('/crawler',function(req,res,next){
+router.all('/crawler/shoplist',function(req,res,next){
 	console.log('-------------crawler-------------');
 	mainController.getShopList();
+});
+
+/**
+ * 抓取接口
+ */
+router.all('/crawler/groupbuy',function(req,res,next){
+	console.log('-------------crawler-------------');
+	groupbuyController.crawGroupBuyData();
 });
 
 router.post('/api', function(req, res) {
