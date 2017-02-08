@@ -18,28 +18,5 @@ fs.readdirSync(__dirname)//__dirname,当前文件绝对路径
 		db[model.name] = model;
 	});
 
-/**
- * 下面这串有什么用?不知道,查看giuhub上express-example-master项目源码看到的
- */
-//Object.keys(db).forEach(function(modelName) {
-//	console.log('--------------------------');
-//	if ("associate" in db[modelName]) {
-//		console.log('key:'+modelName);
-//		console.log(db);
-//		db[modelName].associate(db);
-//		console.log('*********************');
-//		console.dir(db[modelName]);
-//	}
-//});
-
-//设置一对一关系
-//var BUserInfo = db.BUserInfo;
-//var BUser = db.BUser;
-//
-//BUser.belongsTo(
-//	BUserInfo,{
-//		foreignKey: 'info_id'
-//	});
-
 module.exports = db;
 

@@ -28,12 +28,6 @@ servlet.save = function(callback,maps){
             logger.error('保存回答表出错:'+err);
         });
     });
-    // mytable.build(map).save().then(function(result){
-    //     logger.info('保存CZAnswer表成功');
-    //     callback(result);
-    // }).catch(function(err){
-    //     logger.error('保存回答表出错:'+err);
-    // });
 };
 
 //根据问题id查询全部回答

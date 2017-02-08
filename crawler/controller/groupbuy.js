@@ -38,21 +38,20 @@ controller.saveGroupBuyToDB = saveGroupBuyToDB;
  */
 var crawlerGroupBuy = function (result, uri) {
     console.log('---------crawlerGroupBuy line 74 -----------' + uri);
+    var url_pre = "http://t.dianping.com";
     var shopList = {};
     var $ = cheerio.load(result.text);
-    // logger.info(result.text);
     var shop_list_data = [];
-    $('#shop-all-list').find("li").each(
+    $('.tg-list li.tg-floor-item').each(
         function (index, element) {
             var list = {};
-            list.shop_name = $(element).find(".txt .tit a").attr('title');
-            list.shop_href = $(element).find(".txt .tit a").attr('href');
-            list.shop_rank_stars = $(element).find(".txt .comment span").attr('title');
-            list.shop_comment_num = $(element).find(".txt .comment a").children().first().text();
-            list.shop_comment_href = $(element).find(".txt .comment a").attr("href");
-            list.shop_tag = $(element).find(".txt .tag-addr .tag").eq(0).text();
-            list.shop_add_tag = $(element).find(".txt .tag-addr .tag").eq(1).text();
-            list.shop_add = $(element).find(".txt .tag-addr .addr").text();
+            list.shop_href = url_pre + $(element).find("a").children().first().attr("href");
+            list.shop_name = url_pre + $(element).find("a").children().eq(1).find("h3").text();
+            var tmp = url_pre + $(element).find("a").children().eq(1).find("h4").text().match(/\[(.*)\\]/gm);
+            list.shop_add_tag = tmp;
+            list.shop_price_new = $(element).find("span.tg-floor-price-new em").text();
+            list.shop_price_old = $(element).find("span.tg-floor-price-old del").text();
+            list.shop_sold = $(element).find("span.tg-floor-sold").text();
             shop_list_data.push(list);
         }
     );
