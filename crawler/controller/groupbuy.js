@@ -84,7 +84,7 @@ function doCrawGroupBuyData(callback) {
                 callback(null);
             } else {
                 try {
-                    var parsedData = crawlerShopList(result, uri);
+                    var parsedData = crawlerGroupBuy(result, uri);
                     saveGroupBuyToDB(parsedData);
                     callback("success");
                 } catch (e) {

@@ -33,7 +33,7 @@ router.all('/crawler/shoplist',function(req,res,next){
  * 抓取接口
  */
 router.all('/crawler/groupbuy',function(req,res,next){
-	console.log('-------------crawler-------------');
+	console.log('-------------groupbuyController api-------------');
 	groupbuyController.crawGroupBuyData();
 });
 
