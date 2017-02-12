@@ -13,6 +13,7 @@ var entities = new Entities();
 var controller = {};
 var groupbuy = require('../servlet/groupbuy.js');
 var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
+var common = require('../../utils/common.js')
 
 //根据问题查询出该问题以及该问题的答案
 function saveGroupBuyToDB(map) {
@@ -36,12 +37,12 @@ controller.saveGroupBuyToDB = saveGroupBuyToDB;
 
 /**
  */
-var crawlerGroupBuy = function (result, uri) {
-    console.log('---------crawlerGroupBuy line 74 -----------' + uri);
+var crawlerGroupBuy = function (html, params) {
+    console.log('---------crawlerGroupBuy line 40 -----------');
     var url_pre = "http://t.dianping.com";
     var shopList = {};
-    var $ = cheerio.load(result.text);
-    logger.info("-------------- 33333 get the result-------555555--")
+    var $ = cheerio.load(html.text);
+    logger.info("-------------- 33333 get the result-------555555--");
     var shop_list_data = [];
     $('.tg-list li.tg-floor-item').each(
         function (index, element) {
@@ -53,50 +54,79 @@ var crawlerGroupBuy = function (result, uri) {
             list.shop_price_new = $(element).find("span.tg-floor-price-new em").text();
             list.shop_price_old = $(element).find("span.tg-floor-price-old del").text();
             list.shop_sold = $(element).find("span.tg-floor-sold").text();
+            list.city = params.city;
+            list.search_key = params.search_key;
             shop_list_data.push(list);
         }
     );
     logger.info(JSON.stringify(shop_list_data));
-    shopList.href = uri;
     shopList.shoplist = shop_list_data;
     return shopList;
+}
+
+/**
+ * generate crawler url by params
+ * @param params
+ */
+function generateUrlByParams(params){
+    if(params.isArray){
+        var city = params.city;
+        var keys = params.search_key;
+        //http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99
+        var url = encodeURI('http://t.dianping.com/list/' + city + '?q=' + keys);
+        return url;
+    }else{
+        return false;
+    }
 }
 
 /**
  * 根据条件获得工作室列表
  * @param uri
  */
-function doCrawGroupBuyData(callback) {
-    // var uri = 'http://t.dianping.com/list/beijing?q=%E5%A4%A7%E6%82%A6%E5%9F%8E++%E5%81%A5%E8%BA%AB%E5%B7%A5%E4%BD%9C%E5%AE%A4';
-    var uri = "http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99";
-    console.log('---------doCrawGroupBuyData-----------' + uri);
-    superagent
-        .get(uri)
-        .end(function (err, result) {
-            var stateus = result.status + '';
-            if (err) {
-                logger.error('superagent抓取知乎用户详细信息出错:' + err);
-                logger.error('url:' + uri + '  返回状态码:' + stateus);
-                callback(null);
-                return false;
-            }
-            if (stateus.indexOf('4') === 0 || stateus.indexOf('5') === 0) {
-                logger.error('地址uri:' + uri + '  返回状态码:' + result.status);
-                logger.error('result.body.message:' + result.body.message);
-                callback(null);
-            } else {
-                try {
-                    var parsedData = crawlerGroupBuy(result, uri);
-                    saveGroupBuyToDB(parsedData);
-                    callback("success");
-                } catch (e) {
-                    logger.error('出错的html:' + result.text);
-                    console.dir(e);
-                    console.error('错误' + e);
-                    callback(null);
-                }
-            }
-        });
+function doCrawGroupBuyData(callback, params) {
+    // var uri = "http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99";
+    var uri = generateUrlByParams(params);
+    console.log('---------doCrawGroupBuyData 89-----------' + uri);
+
+    //test
+    //get html
+    var path = '/root/yangqi/utils/common.js';
+    var html1 = common.readTextFile(path);
+    console.log('---------doCrawGroupBuyData 89-----------' + html1);
+    var html2 = common.getLocalFile(common.filePath);
+    console.log('---------doCrawGroupBuyData 89-----------' + html2);
+    var parsedData = crawlerGroupBuy(html2, params);
+    saveGroupBuyToDB(parsedData);
+    callback("success");
+
+    // superagent
+    //     .get(uri)
+    //     .end(function (err, result){
+    //         var stateus = result.status + '';
+    //         if (err) {
+    //             logger.error('superagent抓取知乎用户详细信息出错:' + err);
+    //             logger.error('url:' + uri + '  返回状态码:' + stateus);
+    //             callback(null);
+    //             return false;
+    //         }
+    //         if (stateus.indexOf('4') === 0 || stateus.indexOf('5') === 0) {
+    //             logger.error('地址uri:' + uri + '  返回状态码:' + result.status);
+    //             logger.error('result.body.message:' + result.body.message);
+    //             callback(null);
+    //         } else {
+    //             try {
+    //                 var parsedData = crawlerGroupBuy(result, params);
+    //                 saveGroupBuyToDB(parsedData);
+    //                 callback("success");
+    //             } catch (e) {
+    //                 logger.error('出错的html:' + result.text);
+    //                 console.dir(e);
+    //                 console.error('错误' + e);
+    //                 callback(null);
+    //             }
+    //         }
+    //     });
 }
 
 /**

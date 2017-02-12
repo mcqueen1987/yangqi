@@ -38,6 +38,24 @@ module.exports = function(sequelize,Sequelize){
                 'allowNull': true,
                 'field' : 'shop_sold',
                 'comment' : 'shop_sold'
+            },
+            'city' : {
+                'type' : Sequelize.STRING(16),
+                'allowNull': true,
+                'field' : 'city',
+                'comment' : 'city'
+            },
+            'search_key' : {
+                'type' : Sequelize.STRING(16),
+                'allowNull': true,
+                'field' : 'search_key',
+                'comment' : 'search_key 搜索关键字'
+            },
+            'date' : {
+                'type' : Sequelize.STRING(16),
+                'allowNull': true,
+                'field' : 'date',
+                'comment' : 'date抓取日期，以天为单位去重'
             }
         },{
             comment : '工作室团购信息',
