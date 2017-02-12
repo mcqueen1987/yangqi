@@ -52,16 +52,21 @@ module.exports = function(sequelize,Sequelize){
                 'comment' : 'search_key 搜索关键字'
             },
             'date' : {
-                'type' : Sequelize.STRING(16),
+                'type' : Sequelize.DATE,
                 'allowNull': true,
                 'field' : 'date',
                 'comment' : 'date抓取日期，以天为单位去重'
+            },
+            'deleted_at' : {
+                'type' : Sequelize.DATE,
+                'allowNull': true,
+                'field' : 'deleted_at',
+                'comment' : 'deleted_at'
             }
         },{
             comment : '工作室团购信息',
             timestamps : true,
             paranoid : true,
-            deleted_at : 'deleted_at', //删除字段deletedAt别名
             updated_at : 'updated_at',
             created_at : 'created_at',
             freezeTableName : true,   //是否自定义表名

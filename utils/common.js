@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 
 var filePath = path.join(__dirname,'..','html','test.html');
-console.log(fs.readFileSync(filePath, "utf8"));
+// console.log(fs.readFileSync(filePath, "utf8"));
 
 var common={};
 /**

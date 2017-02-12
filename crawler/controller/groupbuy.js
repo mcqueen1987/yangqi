@@ -41,19 +41,18 @@ var crawlerGroupBuy = function (html, params) {
     console.log('---------crawlerGroupBuy line 40 -----------');
     var url_pre = "http://t.dianping.com";
     var shopList = {};
-    var $ = cheerio.load(html.text);
+    var $ = cheerio.load(html);
     logger.info("-------------- 33333 get the result-------555555--");
     var shop_list_data = [];
     $('.tg-list li.tg-floor-item').each(
         function (index, element) {
             var list = {};
-            list.shop_href = url_pre + $(element).find("a").children().first().attr("href");
-            list.shop_name = url_pre + $(element).find("a").children().eq(1).find("h3").text();
-            var tmp = url_pre + $(element).find("a").children().eq(1).find("h4").text().match(/\[(.*)\\]/gm);
-            list.shop_add_tag = tmp;
+            list.shop_href = url_pre + $(element).find("a.tg-floor-img").attr("href");
+            list.shop_name = url_pre + $(element).find("a.tg-floor-title h3").text();
+            list.shop_add_tag = $(element).find("a.tg-floor-title h4").text();
             list.shop_price_new = $(element).find("span.tg-floor-price-new em").text();
             list.shop_price_old = $(element).find("span.tg-floor-price-old del").text();
-            list.shop_sold = $(element).find("span.tg-floor-sold").text();
+            list.shop_sold = $(element).find("span.tg-floor-sold").text().replace(/已售/, ""));
             list.city = params.city;
             list.search_key = params.search_key;
             shop_list_data.push(list);
@@ -94,7 +93,7 @@ function doCrawGroupBuyData(callback, params) {
     var path = '/root/yangqi/utils/common.js';
     var html1 = common.readTextFile(path);
     console.log('---------doCrawGroupBuyData 89-----------' + html1);
-    var parsedData = crawlerGroupBuy(html2, params);
+    var parsedData = crawlerGroupBuy(html1, params);
     saveGroupBuyToDB(parsedData);
     callback("success");
 
