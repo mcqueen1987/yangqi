@@ -2,13 +2,10 @@
  * Created by public on 2016/6/14.
  */
 
-console.log(' in servlet groupbuy.js 28');
 var moment = require('moment');
 var logger = require('../../utils/log4js.js').log4js.getLogger(__filename);
 var servlet={};
-var groupbuy = require('../models/index.js').groupbuy;
-console.log(' in servlet groupbuy.js 28');
-console.log(groupbuy.toString());
+var groupbuy = require('../models/index.js').group_buy;
 
 /**
  * 保存方法

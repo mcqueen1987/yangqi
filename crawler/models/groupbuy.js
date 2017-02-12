@@ -1,7 +1,7 @@
 "use strict";
 module.exports = function(sequelize,Sequelize){
-    var groupbuy = sequelize.define(
-        'groupbuy',
+    var group_buy = sequelize.define(
+        'group_buy',
         {
             'shop_name' : {
                 'field': 'shop_name', // 数据库字段名，即：数据库字段名为'first_name'，而对象属性名为'firstName'
@@ -47,10 +47,10 @@ module.exports = function(sequelize,Sequelize){
             updated_at : 'updated_at',
             created_at : 'created_at',
             freezeTableName : true,   //是否自定义表名
-            tableName : 'groupbuy', //自定义表名
+            tableName : 'group_buy', //自定义表名
             underscored : true    //使用驼峰命名法
         }
     );
-    return groupbuy;
+    return group_buy;
 }
 

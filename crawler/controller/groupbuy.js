@@ -16,11 +16,11 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 
 //根据问题查询出该问题以及该问题的答案
 function saveGroupBuyToDB(map) {
-    console.log('in saveGroupBuyToDB main.js line 36  ---------');
+    console.log('in saveGroupBuyToDB groupbuy.js line 19 ---------');
     async.series([
         function (callback) {
             groupbuy.save(function (result) {
-                console.log(' --------saveGroupBuyToDB call back success in sava data ---------' + result);
+                console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result);
             }, map);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
@@ -41,6 +41,7 @@ var crawlerGroupBuy = function (result, uri) {
     var url_pre = "http://t.dianping.com";
     var shopList = {};
     var $ = cheerio.load(result.text);
+    logger.info("-------------- 33333 get the result-------555555--")
     var shop_list_data = [];
     $('.tg-list li.tg-floor-item').each(
         function (index, element) {
@@ -66,7 +67,8 @@ var crawlerGroupBuy = function (result, uri) {
  * @param uri
  */
 function doCrawGroupBuyData(callback) {
-    var uri = 'http://t.dianping.com/list/beijing?q=%E5%A4%A7%E6%82%A6%E5%9F%8E++%E5%81%A5%E8%BA%AB%E5%B7%A5%E4%BD%9C%E5%AE%A4';
+    // var uri = 'http://t.dianping.com/list/beijing?q=%E5%A4%A7%E6%82%A6%E5%9F%8E++%E5%81%A5%E8%BA%AB%E5%B7%A5%E4%BD%9C%E5%AE%A4';
+    var uri = "http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99";
     console.log('---------doCrawGroupBuyData-----------' + uri);
     superagent
         .get(uri)

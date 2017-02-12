@@ -11,8 +11,8 @@ var sequelize = new Sequelize(
   }
 );
 
-var shopbuy = sequelize.define(
-    'shopbuy',
+var group_buy = sequelize.define(
+    'group_buy',
     {
         'shop_name' : {
             'field': 'shop_name', // 数据库字段名，即：数据库字段名为'first_name'，而对象属性名为'firstName'
@@ -26,67 +26,51 @@ var shopbuy = sequelize.define(
             'field' : 'shop_href',
             'comment' : 'shop_href'
         },
-        'shop_rank_stars' : {
-            'type' : Sequelize.STRING(32),
-            'allowNull': true,
-            'field' : 'shop_rank_stars',
-            'comment' : 'shop_rank_stars'
-        },
-        'shop_comment_num' : {
-            'type' : Sequelize.STRING(16),
-            'allowNull': true,
-            'field' : 'shop_comment_num',
-            'comment' : 'shop_comment_num'
-        },
-        'shop_comment_href' : {
-            'type' : Sequelize.STRING(512),
-            'allowNull': true,
-            'field' : 'shop_comment_href',
-            'comment' : 'shop_comment_href'
-        },
-        'shop_tag' : {
-            'type' : Sequelize.STRING(64),
-            'allowNull': true,
-            'field' : 'shop_tag',
-            'comment' : 'shop_tag'
-        },
         'shop_add_tag' : {
-            'type' : Sequelize.STRING(64),
+            'type' : Sequelize.STRING(32),
             'allowNull': true,
             'field' : 'shop_add_tag',
             'comment' : 'shop_add_tag'
         },
-        'shop_add' : {
-            'type' : Sequelize.STRING(128),
+        'shop_price_new' : {
+            'type' : Sequelize.STRING(16),
             'allowNull': true,
-            'field' : 'shop_add',
-            'comment' : 'shop_add'
+            'field' : 'shop_price_new',
+            'comment' : 'shop_price_new'
         },
+        'shop_price_old' : {
+            'type' : Sequelize.STRING(16),
+            'allowNull': true,
+            'field' : 'shop_price_old',
+            'comment' : 'shop_price_old'
+        },
+        'shop_sold' : {
+            'type' : Sequelize.STRING(16),
+            'allowNull': true,
+            'field' : 'shop_sold',
+            'comment' : 'shop_sold'
+        }
     },{
-        comment : '工作室团购信息表',
+        comment : '工作室团购信息',
         timestamps : true,
         paranoid : true,
         deleted_at : 'deleted_at', //删除字段deletedAt别名
         updated_at : 'updated_at',
         created_at : 'created_at',
         freezeTableName : true,   //是否自定义表名
-        tableName : 'shopbuy', //自定义表名
+        tableName : 'group_buy', //自定义表名
         underscored : true    //使用驼峰命名法
     }
 );
 
-
 shopbuy.sync({force: true}).then(function () {
-  // 表创建完成
   return shopbuy.create({
         "shop_name":"LIKE FITNESS乐健身工作室",
         "shop_href":"/shop/67027725",
-        "shop_rank_stars":"五星商户",
-        "shop_comment_num":"38￥232",
-        "shop_comment_href":"/shop/67027725#comment",
-        "shop_tag":"",
-        "shop_add_tag":"",
-        "shop_add":"27号院华纺新天地4号楼309"
+        "shop_add_tag":"朝阳 健身 私教",
+        "shop_price_new":"4552",
+        "shop_price_old":"4577",
+        "shop_sold":"254",
   });
 });
 
