@@ -47,8 +47,8 @@ var crawlerGroupBuy = function (html, params) {
     $('.tg-list li.tg-floor-item').each(
         function (index, element) {
             var list = {};
-            list.deal_id = $(element).find("a.tg-floor-img").attr("href").replace("/deal\\//","");
-            list.shop_id = "deal_id" + "some thing";
+            list.deal_id = $(element).find("a.tg-floor-img").attr("href").replace("/deal\//","");
+            list.shop_id = 2222;
             list.shop_href = url_pre + $(element).find("a.tg-floor-img").attr("href");
             list.shop_name = $(element).find("a.tg-floor-title h3").text();
             list.shop_add_tag = $(element).find("a.tg-floor-title h4").text();

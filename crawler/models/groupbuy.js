@@ -5,13 +5,13 @@ module.exports = function(sequelize,Sequelize){
         {
             'shop_id' : {
                 'field': 'shop_id',
-                'type' : Sequelize.INTEGER (),
+                'type' : Sequelize.INTEGER(),
                 'allowNull': true,
                 'comment' : 'shop_id, 自定义唯一id'
             },
             'deal_id' : {
                 'field': 'deal_id',
-                'type' : Sequelize.STRING(64),
+                'type' : Sequelize.INTEGER(),
                 'allowNull': true,
                 'comment' : 'deal_id, 抓下来的deal_id'
             },
