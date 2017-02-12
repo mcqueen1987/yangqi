@@ -48,11 +48,13 @@ var crawlerGroupBuy = function (html, params) {
         function (index, element) {
             var list = {};
             list.shop_href = url_pre + $(element).find("a.tg-floor-img").attr("href");
-            list.shop_name = url_pre + $(element).find("a.tg-floor-title h3").text();
+            list.shop_name = $(element).find("a.tg-floor-title h3").text();
             list.shop_add_tag = $(element).find("a.tg-floor-title h4").text();
             list.shop_price_new = $(element).find("span.tg-floor-price-new em").text();
             list.shop_price_old = $(element).find("span.tg-floor-price-old del").text();
-            list.shop_sold = $(element).find("span.tg-floor-sold").text().replace(/已售/, ""));
+            list.shop_sold = $(element).find("span.tg-floor-sold").text().replace(/已售/, "");
+            list.date = new Date();
+            list.deleted_at = "2038-01-01";
             list.city = params.city;
             list.search_key = params.search_key;
             shop_list_data.push(list);

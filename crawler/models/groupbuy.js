@@ -52,7 +52,7 @@ module.exports = function(sequelize,Sequelize){
                 'comment' : 'search_key 搜索关键字'
             },
             'date' : {
-                'type' : Sequelize.DATE,
+                'type' : Sequelize.DATEONLY,
                 'allowNull': true,
                 'field' : 'date',
                 'comment' : 'date抓取日期，以天为单位去重'
