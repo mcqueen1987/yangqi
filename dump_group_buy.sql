@@ -14,11 +14,17 @@ var sequelize = new Sequelize(
 var group_buy = sequelize.define(
         'group_buy',
         {
-            'shop_name' : {
-                'field': 'shop_name', // 数据库字段名，即：数据库字段名为'first_name'，而对象属性名为'firstName'
+            'shop_id' : {
+                'field': 'shop_id',
+                'type' : Sequelize.INTEGER (),
+                'allowNull': true,
+                'comment' : 'shop_id, 自定义唯一id'
+            },
+            'deal_id' : {
+                'field': 'deal_id',
                 'type' : Sequelize.STRING(64),
                 'allowNull': true,
-                'comment' : 'shop_name'
+                'comment' : 'deal_id, 抓下来的deal_id'
             },
             'shop_href' : {
                 'type' : Sequelize.STRING(256),
