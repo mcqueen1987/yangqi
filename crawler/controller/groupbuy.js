@@ -69,7 +69,7 @@ var crawlerGroupBuy = function (html, params) {
  * @param params
  */
 function generateUrlByParams(params){
-    if(params.isArray){
+    if(Object.prototype.toString.call( params ) === '[object Array]' ){
         var city = params.city;
         var keys = params.search_key;
         //http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99
@@ -132,7 +132,7 @@ function doCrawGroupBuyData(callback, params) {
 /**
  * 根据搜索条件获的某地区工作室列表
  */
-function crawGroupBuyData() {
+function crawGroupBuyData(params) {
     console.log('-----------  crawGroupBuyData function ---------------');
     var configMap = _systemConfig.configMap;
     console.log('----------- in  crawGroupBuyData function ---------------' + JSON.stringify(configMap));
@@ -145,7 +145,7 @@ function crawGroupBuyData() {
                 } else {
                     console.log('===============get parse data fail===============');
                 }
-            });
+            }, params);
         }, 3000),
     ], function (err) { //This is the final callback
         console.log('oops,出错了!!!' + err);

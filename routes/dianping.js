@@ -20,7 +20,10 @@ router.all('/crawler/shoplist',function(req,res,next){
  */
 router.all('/crawler/groupbuy',function(req,res,next){
 	console.log('-------------groupbuyController api-------------');
-	groupbuyController.crawGroupBuyData();
+	var params = {};
+	params.city = 'beijing';
+	params.search_key = '朝阳 健身';
+	groupbuyController.crawGroupBuyData(params);
 });
 
 router.post('/api', function(req, res) {
