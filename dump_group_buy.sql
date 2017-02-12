@@ -22,9 +22,15 @@ var group_buy = sequelize.define(
             },
             'deal_id' : {
                 'field': 'deal_id',
-                'type' : Sequelize.STRING(64),
+                'type' : Sequelize.INTEGER (),
                 'allowNull': true,
                 'comment' : 'deal_id, 抓下来的deal_id'
+            },
+            'shop_name' : {
+                'field': 'shop_name',
+                'type' : Sequelize.STRING(64),
+                'allowNull': true,
+                'comment' : 'shop_name'
             },
             'shop_href' : {
                 'type' : Sequelize.STRING(256),
@@ -94,6 +100,8 @@ var group_buy = sequelize.define(
 
 group_buy.sync({force: true}).then(function () {
   return group_buy.create({
+        "shop_id":222,
+        "deal_id":2366,
         "shop_name":"LIKE FITNESS乐健身工作室",
         "shop_href":"/shop/67027725",
         "shop_add_tag":"青年路",
@@ -102,7 +110,8 @@ group_buy.sync({force: true}).then(function () {
         "shop_sold":"254",
         "city":"beijing",
         "search_key":"北京 朝阳 亲年路 健身 私教",
-        "date":""
+        "date":"2017-2-13",
+        "deleted_at":"2017-2-13",
   });
 });
 
