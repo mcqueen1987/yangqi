@@ -94,8 +94,6 @@ function doCrawGroupBuyData(callback, params) {
     var path = '/root/yangqi/utils/common.js';
     var html1 = common.readTextFile(path);
     console.log('---------doCrawGroupBuyData 89-----------' + html1);
-    var html2 = common.getLocalFile(common.filePath);
-    console.log('---------doCrawGroupBuyData 89-----------' + html2);
     var parsedData = crawlerGroupBuy(html2, params);
     saveGroupBuyToDB(parsedData);
     callback("success");
