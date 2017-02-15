@@ -38,6 +38,6 @@ function getDateNow(){
 
 common.filePath = filePath;
 common.readTextFile = readTextFile;
-common.getDateNow = getDateNow();
+common.getDateNow = getDateNow;
 
 module.exports = common;
