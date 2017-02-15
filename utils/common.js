@@ -19,25 +19,19 @@ function readTextFile(path)
 /**
  * get date now 
  * yyyy-mm-dd
- * @returns {Date}
  */
-function getDateNow(){
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
-    if(dd<10) {
-        dd='0'+dd
-    }
-    if(mm<10) {
-        mm='0'+mm
-    }
-    today = yyyy+'-'+mm+'-'+dd;
-    return today;
+function getTheDate(){
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    var newdate = year + "/" + month + "/" + day;
+    console.log("--5555555555555555---------" + newdate);
+    return newdate;
 }
 
 common.filePath = filePath;
 common.readTextFile = readTextFile;
-common.getDateNow = getDateNow;
+common.getTheDate = getTheDate;
 
 module.exports = common;
