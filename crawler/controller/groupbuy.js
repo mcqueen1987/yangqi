@@ -49,7 +49,9 @@ var crawlerGroupBuy = function (html, params) {
             var list = {};
             list.shop_href = $(element).find("a.tg-floor-img").attr("href");
             list.deal_id = list.shop_href.match(/\/([0-9]+)/)[1];
-            list.shop_id = common.getTheDate().toString() + "_" + list.deal_id;
+            var time = common.getTheDate();
+            console.log("----7777777777--" + time);
+            list.shop_id = time.toString() + "_" + list.deal_id;
             list.shop_name = $(element).find("a.tg-floor-title h3").text();
             var floorTitle = $(element).find("a.tg-floor-title h4").text();
             list.shop_add_tag = floorTitle.match(/\[(.*?)]/)[1];
