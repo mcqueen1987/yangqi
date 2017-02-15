@@ -5,7 +5,7 @@ module.exports = function(sequelize,Sequelize){
         {
             'shop_id' : {
                 'field': 'shop_id',
-                'type' : Sequelize.INTEGER(),
+                'type' : Sequelize.STRING(64),
                 'allowNull': true,
                 'comment' : 'shop_id, 自定义唯一id'
             },
