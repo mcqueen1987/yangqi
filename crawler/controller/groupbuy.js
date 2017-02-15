@@ -47,12 +47,12 @@ var crawlerGroupBuy = function (html, params) {
     $('.tg-list li.tg-floor-item').each(
         function (index, element) {
             var list = {};
-            // var tmp = $(element).find("a.tg-floor-img").attr("href").replace("/deal\//","");
-            list.deal_id = 34444;
-            list.shop_id = 2222;
-            list.shop_href = url_pre + $(element).find("a.tg-floor-img").attr("href");
+            list.shop_href = $(element).find("a.tg-floor-img").attr("href");
+            list.deal_id = list.shop_href.replace(/deal\//, "");
+            list.shop_id = common.getDateNow() + list.deal_id;
             list.shop_name = $(element).find("a.tg-floor-title h3").text();
-            list.shop_add_tag = $(element).find("a.tg-floor-title h4").text();
+            var floorTitle = $(element).find("a.tg-floor-title h4").text();
+            list.shop_add_tag = floorTitle.match(/\\[(.*?)\\]/);;
             list.shop_price_new = $(element).find("span.tg-floor-price-new em").text();
             list.shop_price_old = $(element).find("span.tg-floor-price-old del").text();
             list.shop_sold = $(element).find("span.tg-floor-sold").text().replace(/已售/, "");
