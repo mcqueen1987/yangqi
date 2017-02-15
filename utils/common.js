@@ -25,7 +25,7 @@ function getTheDate(){
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-    var newdate = year + "/" + month + "/" + day;
+    var newdate = year + "_" + month + "_" + day;
     console.log("--5555555555555555---------" + newdate);
     return newdate;
 }
