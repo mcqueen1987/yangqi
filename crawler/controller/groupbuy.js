@@ -101,6 +101,7 @@ function getPageNum(html){
  */
 function doCrawGroupBuyData(callback, params) {
     // var uri = "http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99";
+    logger.info("  params is =====" + params);
     var url = generateUrlByParams(params);
     console.log('--------- doCrawGroupBuyData 106-----------' + url);
 
@@ -216,7 +217,6 @@ function crawGroupBuyData(params) {
     });
 }
 
-controller.doCrawGroupBuyData = doCrawGroupBuyData;
 controller.crawGroupBuyData = crawGroupBuyData;
 module.exports = controller;
 
