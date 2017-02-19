@@ -108,20 +108,43 @@ function doCrawGroupBuyData(callback, params) {
     //get html by http
     var html1 = "";
     async.series([
-        function (callback) {
-            html1 = getHtmlByGet(function (result) {
-                console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result);
+        // function (callback) {
+        //     getHtmlByGet(function (result) {
+        //         console.log(' --------doCrawGroupBuyData success in get html ---------' + result.substring(0, 512));
+        //         html1 = result;
+        //     }, url);
+        // },		//先删除数据库中与该问题相关的数据
+        setTimeout(function(){
+            getHtmlByGet(function (result) {
+                console.log(' --------doCrawGroupBuyData success in get html ---------' + result.substring(0, 512));
+                html1 = result;
             }, url);
-        },		//先删除数据库中与该问题相关的数据
+        }, 3000),
     ], function (err, result) {
         if (err) {
-            console.log(err);
-            res.send('oops! save data 出错了');
+            logger.info(err);
         } else {
-            console.log({quiz: result[0], result: result[1], date: result[0]});
+            logger.info({quiz: result[0], result: result[1], date: result[0]});
         }
     });
 
+
+    async.series([
+        setTimeout(function () {
+            console.log('------crawGroupBuyData  --------async.eachSeries ------');
+            doCrawGroupBuyData(function (msg) {
+                if (msg === 'success') {
+                    console.log('===============get parse data success===============');
+                } else {
+                    console.log('===============get parse data fail===============');
+                }
+            }, params);
+        }, 3000),
+    ], function (err) { //This is the final callback
+        console.log('oops,出错了!!!' + err);
+        logger.error('oops,出错了!!!' + err);
+    });
+    
     var pageNum = getPageNum(html1);
     logger.info("----------- page num is :" + pageNum);
 
@@ -138,34 +161,6 @@ function doCrawGroupBuyData(callback, params) {
         // saveGroupBuyToDB(parsedData);
         // callback("success");
     }
-
-    // superagent
-    //     .get(uri)
-    //     .end(function (err, result){
-    //         var stateus = result.status + '';
-    //         if (err) {
-    //             logger.error('superagent抓取知乎用户详细信息出错:' + err);
-    //             logger.error('url:' + uri + '  返回状态码:' + stateus);
-    //             callback(null);
-    //             return false;
-    //         }
-    //         if (stateus.indexOf('4') === 0 || stateus.indexOf('5') === 0) {
-    //             logger.error('地址uri:' + uri + '  返回状态码:' + result.status);
-    //             logger.error('result.body.message:' + result.body.message);
-    //             callback(null);
-    //         } else {
-    //             try {
-    //                 var parsedData = crawlerGroupBuy(result, params);
-    //                 saveGroupBuyToDB(parsedData);
-    //                 callback("success");
-    //             } catch (e) {
-    //                 logger.error('出错的html:' + result.text);
-    //                 console.dir(e);
-    //                 console.error('错误' + e);
-    //                 callback(null);
-    //             }
-    //         }
-    //     });
 }
 
 /**
