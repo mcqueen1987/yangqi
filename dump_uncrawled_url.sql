@@ -11,7 +11,7 @@ var sequelize = new Sequelize(
   }
 );
 
-var group_buy = sequelize.define(
+var un_crawled_url = sequelize.define(
         'un_crawled_url',
         {
             'city' : {
