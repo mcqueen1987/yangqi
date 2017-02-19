@@ -79,6 +79,7 @@ function generateUrlByParams(params){
         var keys = params.search_key;
         //http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99
         var url = encodeURI('http://t.dianping.com/list/' + city + '?q=' + keys);
+        logger.info("===========generateUrlByParams=============" + url);
         return url;
     }else{
         return false;
@@ -101,7 +102,7 @@ function getPageNum(html){
  */
 function doCrawGroupBuyData(callback, params) {
     // var uri = "http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99";
-    logger.info("  params is =====" + params);
+    logger.info("  params is =====" + JSON.stringify(params));
     var url = generateUrlByParams(params);
     console.log('--------- doCrawGroupBuyData 106-----------' + url);
 
