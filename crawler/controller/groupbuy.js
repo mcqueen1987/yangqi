@@ -92,6 +92,13 @@ function getPageNum(html) {
 }
 
 /**
+ * 保存需要存储的待解析的url
+ */
+function saveUrlToUnCrawledUrl(url){
+    //TODO
+}
+
+/**
  * 根据条件获得工作室列表
  * @param uri
  */
@@ -101,57 +108,55 @@ function doCrawGroupBuyData(callback, params) {
     var url = generateUrlByParams(params);
     console.log('--------- doCrawGroupBuyData 106-----------' + url);
 
-    //test get html from local
-    // var path = '/root/yangqi/utils/common.js';
-    // var html1 = common.readTextFile(path);
+    // test get html from local
+    var path = '/root/yangqi/utils/common.js';
+    var result = common.readTextFile(path);    
+    var pageNum = getPageNum(result);
+    logger.info("----------- page num is :" + pageNum);
+    if(pageNum === false || pageNum < 2) return;
+    logger.info("-----------222 page num is :" + pageNum);
+    // 2 翻页抓取
+    for (var i = 2; i < pageNum; i++) {
+        //抓取页面
+        var tmpHtml = "";
+        url = generateUrlByParams(params) + "pageIndex=" + i;
+        // 把这些url列表存入db，以后慢慢抓
+        //TODO
+        saveUrlToUnCrawledUrl(url);
+    }
 
-    //get html by http
-    var pageNum = 1;
-    async.series([
-        function (callback) {
-            getHtmlByGet(function (result) {
-                console.log(' --------get first page,then get page num---------' + result.substring(0, 64));
-                // 1 获得总页数
-                var pageNum = getPageNum(result);
-                logger.info("----------- page num is :" + pageNum);
-                if(pageNum === false || pageNum < 2) return;
-
-                logger.info("-----------222 page num is :" + pageNum);
-                // 2 翻页抓取
-                for (var i = 2; i < pageNum; i++) {
-                    //抓取页面
-                    var tmpHtml = "";
-                    url = generateUrlByParams(params) + "pageIndex=" + i;
-                    async.series([
-                        function (callback) {
-                            getHtmlByGet(function (result) {
-                                console.log(' --------doCrawGroupBuyData success in get html ---------page:' + i + "----" + result.substring(0, 64));
-                                tmpHtml = result;
-                            }, url);
-                        },		//先删除数据库中与该问题相关的数据
-                    ], function (err, result) {
-                        if (err) {
-                            logger.info(err);
-                        } else {
-                            logger.info({quiz: result[0], result: result[1], date: result[0]});
-                        }
-                    });
-                    //解析页面
-                    var parsedData = crawlerGroupBuy(tmpHtml, params);
-                    saveGroupBuyToDB(parsedData);
-                }
-            }, url);
-        },		//先删除数据库中与该问题相关的数据
-    ], function (err, result) {
-        if (err) {
-            logger.info(err);
-        } else {
-            logger.info({quiz: result[0], result: result[1], date: result[0]});
-        }
-    });
-
-    
+    // //get html by http
+    // async.series([
+    //     function (callback) {
+    //         getHtmlByGet(function (result) {
+    //             console.log(' --------get first page,then get page num---------' + result.substring(0, 64));
+    //             // 1 获得总页数
+    //             var pageNum = getPageNum(result);
+    //             logger.info("----------- page num is :" + pageNum);
+    //             if(pageNum === false || pageNum < 2) return;
+    //             logger.info("-----------222 page num is :" + pageNum);
+    //             // 2 翻页抓取
+    //             for (var i = 2; i < pageNum; i++) {
+    //                 //抓取页面
+    //                 var tmpHtml = "";
+    //                 url = generateUrlByParams(params) + "pageIndex=" + i;
+    //                 // 把这些url列表存入db，以后慢慢抓
+    //                 //TODO
+    //                 // 解析页面
+    //                 var parsedData = crawlerGroupBuy(tmpHtml, params);
+    //                 saveGroupBuyToDB(parsedData);
+    //             }
+    //         }, url);
+    //     },		//先删除数据库中与该问题相关的数据
+    // ], function (err, result) {
+    //     if (err) {
+    //         logger.info(err);
+    //     } else {
+    //         logger.info({quiz: result[0], result: result[1], date: result[0]});
+    //     }
+    // });
 }
+
 
 /**
  * 获取html页面api
