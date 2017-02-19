@@ -106,12 +106,15 @@ function doCrawGroupBuyData(callback, params) {
     // var html1 = common.readTextFile(path);
 
     //get html by http
-    var html1 = "";
+    var pageNum = 0;
     async.series([
         function (callback) {
             getHtmlByGet(function (result) {
-                console.log(' --------doCrawGroupBuyData success in get html ---------' + result.substring(0, 64));
-                html1 = result;
+                console.log(' --------get first page,then get page num---------' + result.substring(0, 64));
+                // 1 获得总页数
+                var pageNum = getPageNum(result);
+                logger.info("----------- page num is :" + pageNum);
+                if(pageNum == false) return;
             }, url);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
@@ -122,12 +125,7 @@ function doCrawGroupBuyData(callback, params) {
         }
     });
 
-    var pageNum = getPageNum(html1);
-    logger.info("----------- page num is :" + pageNum);
-
-    // 1 获得总页数
-    logger.info("==========" + pageNum);
-    //翻页抓取
+    // 2 翻页抓取
     for (var i = 2; i < pageNum; i++) {
         //抓取页面
         var tmpHtml = "";
@@ -176,7 +174,7 @@ function getHtmlByGet(callback, url) {
                 try {
                     // var parsedData = crawlerGroupBuy(result, params);
                     // saveGroupBuyToDB(parsedData);
-                    logger.info("------getHtmlByGet function, uri = " + url + "-----html is:" + result.text);
+                    logger.info("------getHtmlByGet function, uri = " + url + "-----html is:" + result.text.substr(0, 128));
                     callback(result.text);
                 } catch (e) {
                     logger.error('出错的html:' + result.text);
