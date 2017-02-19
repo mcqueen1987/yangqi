@@ -21,9 +21,9 @@ var un_crawled_url = sequelize.define(
                 'comment' : 'city'
             },
             'crawl_id' : {
-                'type' : Sequelize.INTEGER,
+                'type' : Sequelize.INTEGER(),
                 'allowNull': true,
-                'field' : 'city',
+                'field' : 'crawl_id',
                 'comment' : 'date+city+search_key作为该关键字在某天是否抓取的唯一id'
             },
             'search_key' : {
@@ -35,25 +35,25 @@ var un_crawled_url = sequelize.define(
             'search_url' : {
                 'type' : Sequelize.STRING(128),
                 'allowNull': true,
-                'field' : 'search_key',
+                'field' : 'search_url',
                 'comment' : 'search_url 搜索原始url，搜索结果列表翻页作为需要下载页'
             },
             'page_number' : {
-                'type' : Sequelize.INTEGER,
+                'type' : Sequelize.INTEGER(),
                 'allowNull': true,
-                'field' : 'search_key',
+                'field' : 'page_number',
                 'comment' : '搜索结果页面数，用于翻页'
             },
             'url' : {
                 'type' : Sequelize.STRING(128),
                 'allowNull': true,
-                'field' : 'search_key',
+                'field' : 'url',
                 'comment' : ''
             },
             'is_crawled' : {
-                'type' : Sequelize.INTEGER,
+                'type' : Sequelize.INTEGER(),
                 'allowNull': true,
-                'field' : 'search_key',
+                'field' : 'is_crawled',
                 'comment' : '该url是否已被抓取'
             }
         },{
