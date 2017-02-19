@@ -39,7 +39,7 @@ servlet.findAll = function(callback, quizId){
     });
 };
 
-servlet.getOneUnCrawledUrl = function(callback, params) {
+servlet.getOne = function(callback, params) {
     console.log(' in servlet getOneUnCrawledUrl.js 43')
     unCrawledUrl.findAll({
         where : {
