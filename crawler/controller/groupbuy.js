@@ -73,25 +73,21 @@ var crawlerGroupBuy = function (html, params) {
  * generate crawler url by params
  * @param params
  */
-function generateUrlByParams(params){
-    if(Object.prototype.toString.call( params ) === '[object Array]' ){
-        var city = params.city;
-        var keys = params.search_key;
-        //http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99
-        var url = encodeURI('http://t.dianping.com/list/' + city + '?q=' + keys);
-        logger.info("===========generateUrlByParams=============" + url);
-        return url;
-    }else{
-        return false;
-    }
+function generateUrlByParams(params) {
+    var city = params.city;
+    var keys = params.search_key;
+    //http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99
+    var url = encodeURI('http://t.dianping.com/list/' + city + '?q=' + keys);
+    return url;
 }
 
 /**
  * 获取翻页中的页面数
  */
-function getPageNum(html){
-    if(html == "") return null;
+function getPageNum(html) {
+    if (html == "") return false;
     var $ = cheerio.load(html);
+    logger.info(html + "=====line 90");
     var pageNum = $("#paginator").find("a").eq(4).text();
     return pageNum;
 }
@@ -109,7 +105,7 @@ function doCrawGroupBuyData(callback, params) {
     //test get html from local
     // var path = '/root/yangqi/utils/common.js';
     // var html1 = common.readTextFile(path);
-    
+
     //get html by http
     var html1 = getHtmlByGet(url);
     // 1 获得总页数
@@ -117,7 +113,7 @@ function doCrawGroupBuyData(callback, params) {
     logger.info("----------- page num is :" + pageNum);
 
     //翻页抓取
-    for(var i=1; i<pageNum; i++){
+    for (var i = 1; i < pageNum; i++) {
         //抓取页面
         var url = "" + i;
         // var htmlTmp = getHtmlByGet(url); //
@@ -160,11 +156,11 @@ function doCrawGroupBuyData(callback, params) {
  * 获取html页面api
  * get api
  */
-function getHtmlByGet(url){
-    if(url == "") return false;
+function getHtmlByGet(url) {
+    if (url == "") return false;
     superagent
         .get(url)
-        .end(function (err, result){
+        .end(function (err, result) {
             var statusCode = result.status + '';
             if (err) {
                 logger.error('superagent抓取html页面api出错:' + err);
