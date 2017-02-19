@@ -91,7 +91,7 @@ function generateUrlByParams(params){
 function getPageNum(html){
     if(html == "") return null;
     var $ = cheerio.load(html);
-    var pageNum = $.find("#paginator a").eq(4).title;
+    var pageNum = $("#paginator").find("a").eq(4).text();
     return pageNum;
 }
 
@@ -102,11 +102,14 @@ function getPageNum(html){
 function doCrawGroupBuyData(callback, params) {
     // var uri = "http://t.dianping.com/list/beijing?q=%E6%9C%9D%E9%98%B3++%E5%81%A5%E8%BA%AB+%E7%A7%81%E6%95%99";
     var url = generateUrlByParams(params);
-    console.log('---------doCrawGroupBuyData 89-----------' + url);
+    console.log('--------- doCrawGroupBuyData 106-----------' + url);
 
     //test get html from local
-    var path = '/root/yangqi/utils/common.js';
-    var html1 = common.readTextFile(path);
+    // var path = '/root/yangqi/utils/common.js';
+    // var html1 = common.readTextFile(path);
+    
+    //get html by http
+    var html1 = getHtmlByGet(url);
     // 1 获得总页数
     var pageNum = getPageNum(html1);
     logger.info("----------- page num is :" + pageNum);
