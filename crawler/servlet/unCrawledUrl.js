@@ -30,7 +30,7 @@ servlet.findAll = function(callback, quizId){
     console.log(' in servlet groupbuy.js 28')
     unCrawledUrl.findAll({
         where : {
-            id : quizId
+            id : 1
         }
     }).then(function(result){
         callback(null,result);
@@ -43,7 +43,7 @@ servlet.getOne = function(callback, params) {
     console.log(' in servlet getOneUnCrawledUrl.js 43')
     unCrawledUrl.findAll({
         where : {
-            id : params.id
+            id : 1
         }
     }).then(function(result){
         callback(null,result);
