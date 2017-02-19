@@ -87,7 +87,6 @@ function generateUrlByParams(params) {
 function getPageNum(html) {
     if (html == "") return false;
     var $ = cheerio.load(html);
-    logger.info(html + "=====line 90");
     var pageNum = $("#paginator").find("a").eq(4).text();
     return pageNum;
 }
@@ -107,11 +106,28 @@ function doCrawGroupBuyData(callback, params) {
     // var html1 = common.readTextFile(path);
 
     //get html by http
-    var html1 = getHtmlByGet(url);
+    var pageNum = 0;
+    async.series([
+        setTimeout(function () {
+            console.log('------crawGroupBuyData  --------async.eachSeries ------');
+            var html1 = getHtmlByGet(function (msg) {
+                if (msg === 'success') {
+                    console.log('===============get getHtmlByGet data success===============');
+                } else {
+                    console.log('===============get getHtmlByGet data fail===============');
+                }
+            }, url);
+            pageNum = getPageNum(html1);
+            logger.info("----------- page num is :" + pageNum);
+        }, 1000),
+    ], function (err) { //This is the final callback
+        console.log('oops,出错了!!!' + err);
+        logger.error('oops,出错了!!!' + err);
+    });
+    
     // 1 获得总页数
-    var pageNum = getPageNum(html1);
-    logger.info("----------- page num is :" + pageNum);
 
+    logger.info("==========" + pageNum);
     //翻页抓取
     for (var i = 1; i < pageNum; i++) {
         //抓取页面
@@ -156,7 +172,7 @@ function doCrawGroupBuyData(callback, params) {
  * 获取html页面api
  * get api
  */
-function getHtmlByGet(url) {
+function getHtmlByGet(callback, url) {
     if (url == "") return false;
     superagent
         .get(url)
