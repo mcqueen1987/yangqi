@@ -52,5 +52,5 @@ servlet.getOne = function(callback, params) {
     });
 }
 
-servlet.unCrawledUrl = unCrawledUrl;
+servlet.unCrawledUrl = un_crawled_url;
 module.exports = servlet;

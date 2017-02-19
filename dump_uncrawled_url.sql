@@ -78,7 +78,6 @@ un_crawled_url.sync({force: true}).then(function () {
         "url":"/shop/67027725",
         "is_crawled":0,
         "created_at":"2017-2-13",
-        "deleted_at":"2017-2-13",
   });
 });
 

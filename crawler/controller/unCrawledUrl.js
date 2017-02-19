@@ -22,8 +22,8 @@ function getDataFromDB(callback, map) {
         function (callback) {
             unCrawledUrl.findAll(function (result) {
                 console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result.substring(0, 64));
+                callback(result);
             }, map);
-            callback(result);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
         if (err) {
