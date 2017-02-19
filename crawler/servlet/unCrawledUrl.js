@@ -48,7 +48,7 @@ servlet.getOne = function(callback, params) {
     }).then(function(result){
         callback(null,result);
     }).catch(function(err){
-        logger.error('根据问题id查询回答出错:'+err);
+        logger.error('根据id查询un crawled url出错:'+err);
     });
 }
 
