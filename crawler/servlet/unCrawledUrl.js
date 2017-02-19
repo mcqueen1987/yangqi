@@ -5,7 +5,7 @@
 var moment = require('moment');
 var logger = require('../../utils/log4js.js').log4js.getLogger(__filename);
 var servlet={};
-var unCrawledUrl = require('../models/index.js').unCrawledUrl;
+var un_crawled_url = require('../models/index.js').un_crawled_url;
 
 /**
  * 保存方法
@@ -16,7 +16,7 @@ servlet.save = function(callback,maps){
     logger.info(JSON.stringify(maps));
     maps.shoplist.forEach(function(value, index){
         logger.info(JSON.stringify(value));
-        unCrawledUrl.build(value).save().then(function(result){
+        un_crawled_url.build(value).save().then(function(result){
             logger.info('保存 db 表成功' + index);
             callback(result);
         }).catch(function(err){
@@ -28,7 +28,7 @@ servlet.save = function(callback,maps){
 //根据问题id查询全部回答
 servlet.findAll = function(callback, quizId){
     console.log(' in servlet groupbuy.js 28')
-    unCrawledUrl.findAll({
+    un_crawled_url.findAll({
         where : {
             id : 1
         }
@@ -41,7 +41,7 @@ servlet.findAll = function(callback, quizId){
 
 servlet.getOne = function(callback, params) {
     console.log(' in servlet getOneUnCrawledUrl.js 43')
-    unCrawledUrl.findAll({
+    un_crawled_url.findAll({
         where : {
             id : 1
         }
