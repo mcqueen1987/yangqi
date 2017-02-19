@@ -11,7 +11,7 @@ var groupbuyController = require('../crawler/controller/groupbuy.js');
  * 抓取接口
  */
 router.all('/crawler/shoplist',function(req,res,next){
-	console.log('-------------crawler-------------');
+	console.log('------------- shoplist api -------------');
 	mainController.getShopList();
 });
 
@@ -25,6 +25,10 @@ router.all('/crawler/groupbuy',function(req,res,next){
 	params.search_key = '朝阳 健身';
 	groupbuyController.crawGroupBuyData(params);
 });
+
+/**
+ * 抓取页面
+ */
 
 router.post('/api', function(req, res) {
 	var user_id = req.body.id;
