@@ -68,12 +68,6 @@ module.exports = function(sequelize,Sequelize){
                 'allowNull': true,
                 'field' : 'date',
                 'comment' : 'date抓取日期，以天为单位去重'
-            },
-            'deleted_at' : {
-                'type' : Sequelize.DATE,
-                'allowNull': true,
-                'field' : 'deleted_at',
-                'comment' : 'deleted_at'
             }
         },{
             comment : '工作室团购信息',
