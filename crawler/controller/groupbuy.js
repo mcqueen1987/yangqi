@@ -108,24 +108,23 @@ function doCrawGroupBuyData(callback, params) {
     //get html by http
     var html1 = "";
     async.series([
-        setTimeout(function () {
-            console.log('------crawGroupBuyData  --------async.eachSeries ------');
-            html1 = getHtmlByGet(function (msg) {
-                if (msg === 'success') {
-                    console.log('===============get getHtmlByGet data success===============');
-                } else {
-                    console.log('===============get getHtmlByGet data fail===============');
-                }
+        function (callback) {
+            html1 = getHtmlByGet(function (result) {
+                console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result);
             }, url);
-        }, 1000),
-    ], function (err) { //This is the final callback
-        console.log('oops,出错了!!!' + err);
-        logger.error('oops,出错了!!!' + err);
+        },		//先删除数据库中与该问题相关的数据
+    ], function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send('oops! save data 出错了');
+        } else {
+            console.log({quiz: result[0], result: result[1], date: result[0]});
+        }
     });
 
     var pageNum = getPageNum(html1);
     logger.info("----------- page num is :" + pageNum);
-    
+
     // 1 获得总页数
 
     logger.info("==========" + pageNum);
