@@ -16,7 +16,7 @@ servlet.save = function(callback,maps){
     logger.info(JSON.stringify(maps));
     maps.shoplist.forEach(function(value, index){
         logger.info(JSON.stringify(value));
-        groupbuy.build(value).save().then(function(result){
+        unCrawledUrl.build(value).save().then(function(result){
             logger.info('保存 db 表成功' + index);
             callback(result);
         }).catch(function(err){
@@ -28,7 +28,7 @@ servlet.save = function(callback,maps){
 //根据问题id查询全部回答
 servlet.findAll = function(callback, quizId){
     console.log(' in servlet groupbuy.js 28')
-    groupbuy.findAll({
+    unCrawledUrl.findAll({
         where : {
             id : quizId
         }
@@ -38,6 +38,19 @@ servlet.findAll = function(callback, quizId){
         logger.error('根据问题id查询回答出错:'+err);
     });
 };
+
+servlet.getOneUnCrawledUrl = function(callback, params) {
+    console.log(' in servlet getOneUnCrawledUrl.js 43')
+    unCrawledUrl.findAll({
+        where : {
+            id : params.id
+        }
+    }).then(function(result){
+        callback(null,result);
+    }).catch(function(err){
+        logger.error('根据问题id查询回答出错:'+err);
+    });
+}
 
 servlet.unCrawledUrl = unCrawledUrl;
 module.exports = servlet;

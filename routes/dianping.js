@@ -48,6 +48,8 @@ router.all('/crawler/getOneUnCrawledUrl',function(req,res,next){
 	var params = {};
 	params.city = 'beijing';
 	params.type = 'group_buy';
+    params.date = "2017-02-19";
+    params.id=1;
     unCrawledUrl.getOneUnCrawledUrl(params);
 });
 

@@ -16,13 +16,14 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 var common = require('../../utils/common.js')
 
 //根据问题查询出该问题以及该问题的答案
-function getDataFromDB(map) {
+function getDataFromDB(callback, map) {
     console.log('in getDataFromDB ---------');
     async.series([
         function (callback) {
-            groupbuy.save(function (result) {
+            unCrawledUrl.getOneUnCrawledUrl(function (result) {
                 console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result.substring(0, 64));
             }, map);
+            callback(result);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
         if (err) {
@@ -31,6 +32,7 @@ function getDataFromDB(map) {
         } else {
             console.log({quiz: result[0], result: result[1], date: result[0]});
         }
+        callback(null);
     });
 }
 
@@ -38,9 +40,8 @@ function getDataFromDB(map) {
  * 对单个页面进行解析，不包括翻页
  */
 var doGetOneUnCrawledUrl = function(callback, params) {
-    var id = params.id;
-    var ret = getDataFromDB(id);
-    return ret;
+    var ret = getDataFromDB(params);
+    callback(ret); 
 }
 
 
@@ -52,11 +53,13 @@ function getOneUnCrawledUrl(params) {
     async.series([
         setTimeout(function () {
             console.log('------getOneUnCrawledUrl  --------async.eachSeries ------');
-            doGetOneUnCrawledUrl(function (msg) {
-                if (msg === 'success') {
+            doGetOneUnCrawledUrl(function (result) {
+                if (result === '') {
                     console.log('=============== getOneUnCrawledUrl data success===============');
+                    return result;
                 } else {
                     console.log('=============== getOneUnCrawledUrl data fail===============');
+                    return false;
                 }
             }, params);
         }, 3000),
