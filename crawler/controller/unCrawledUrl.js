@@ -20,7 +20,7 @@ function getDataFromDB(callback, map) {
     console.log('in getDataFromDB ---------');
     async.series([
         function (callback) {
-            unCrawledUrl.getOneUnCrawledUrl(function (result) {
+            unCrawledUrl.getOne(function (result) {
                 console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result.substring(0, 64));
             }, map);
             callback(result);
