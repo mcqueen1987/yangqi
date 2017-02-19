@@ -177,8 +177,7 @@ function getHtmlByGet(callback, url) {
                     // var parsedData = crawlerGroupBuy(result, params);
                     // saveGroupBuyToDB(parsedData);
                     logger.info("------getHtmlByGet function, uri = " + url + "-----html is:" + result.text);
-                    callback("success");
-                    return result.text;
+                    callback(result.text);
                 } catch (e) {
                     logger.error('出错的html:' + result.text);
                     console.dir(e);
