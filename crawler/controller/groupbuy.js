@@ -106,7 +106,7 @@ function doCrawGroupBuyData(callback, params) {
     // var html1 = common.readTextFile(path);
 
     //get html by http
-    var pageNum = 0;
+    var pageNum = 1;
     async.series([
         function (callback) {
             getHtmlByGet(function (result) {
@@ -114,7 +114,32 @@ function doCrawGroupBuyData(callback, params) {
                 // 1 获得总页数
                 var pageNum = getPageNum(result);
                 logger.info("----------- page num is :" + pageNum);
-                if(pageNum == false) return;
+                if(pageNum === false || pageNum < 2) return;
+
+                logger.info("-----------222 page num is :" + pageNum);
+                // 2 翻页抓取
+                for (var i = 2; i < pageNum; i++) {
+                    //抓取页面
+                    var tmpHtml = "";
+                    url = generateUrlByParams(params) + "pageIndex=" + i;
+                    async.series([
+                        function (callback) {
+                            getHtmlByGet(function (result) {
+                                console.log(' --------doCrawGroupBuyData success in get html ---------page:' + i + "----" + result.substring(0, 64));
+                                tmpHtml = result;
+                            }, url);
+                        },		//先删除数据库中与该问题相关的数据
+                    ], function (err, result) {
+                        if (err) {
+                            logger.info(err);
+                        } else {
+                            logger.info({quiz: result[0], result: result[1], date: result[0]});
+                        }
+                    });
+                    //解析页面
+                    var parsedData = crawlerGroupBuy(tmpHtml, params);
+                    saveGroupBuyToDB(parsedData);
+                }
             }, url);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
@@ -125,29 +150,7 @@ function doCrawGroupBuyData(callback, params) {
         }
     });
 
-    // 2 翻页抓取
-    for (var i = 2; i < pageNum; i++) {
-        //抓取页面
-        var tmpHtml = "";
-        url = generateUrlByParams(params) + "pageIndex=" + i;
-        async.series([
-            function (callback) {
-                getHtmlByGet(function (result) {
-                    console.log(' --------doCrawGroupBuyData success in get html ---------page:' + i + "----" + result.substring(0, 64));
-                    tmpHtml = result;
-                }, url);
-            },		//先删除数据库中与该问题相关的数据
-        ], function (err, result) {
-            if (err) {
-                logger.info(err);
-            } else {
-                logger.info({quiz: result[0], result: result[1], date: result[0]});
-            }
-        });
-        //解析页面
-        var parsedData = crawlerGroupBuy(tmpHtml, params);
-        saveGroupBuyToDB(parsedData);
-    }
+    
 }
 
 /**
