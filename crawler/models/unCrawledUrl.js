@@ -51,7 +51,6 @@ module.exports = function(sequelize,Sequelize){
             paranoid : true,
             updated_at : 'updated_at',
             created_at : 'created_at', 
-            deleted_at : 'deleted_at', //删除字段
             freezeTableName : true,   //是否自定义表名
             tableName : 'un_crawled_url', //自定义表名
             underscored : true    //使用驼峰命名法
