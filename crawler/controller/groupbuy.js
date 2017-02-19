@@ -21,7 +21,7 @@ function saveGroupBuyToDB(map) {
     async.series([
         function (callback) {
             groupbuy.save(function (result) {
-                console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result);
+                console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result.substring(0, 64));
             }, map);
         },		//先删除数据库中与该问题相关的数据
     ], function (err, result) {
@@ -110,7 +110,7 @@ function doCrawGroupBuyData(callback, params) {
     async.series([
         function (callback) {
             getHtmlByGet(function (result) {
-                console.log(' --------doCrawGroupBuyData success in get html ---------' + result.substring(0, 512));
+                console.log(' --------doCrawGroupBuyData success in get html ---------' + result.substring(0, 64));
                 html1 = result;
             }, url);
         },		//先删除数据库中与该问题相关的数据
@@ -135,7 +135,7 @@ function doCrawGroupBuyData(callback, params) {
         async.series([
             function (callback) {
                 getHtmlByGet(function (result) {
-                    console.log(' --------doCrawGroupBuyData success in get html ---------page:' + i + "----" + result.substring(0, 512));
+                    console.log(' --------doCrawGroupBuyData success in get html ---------page:' + i + "----" + result.substring(0, 64));
                     tmpHtml = result;
                 }, url);
             },		//先删除数据库中与该问题相关的数据
