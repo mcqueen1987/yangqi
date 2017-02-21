@@ -85,9 +85,8 @@ var group_buy = sequelize.define(
             // 是否需要增加createdAt、updatedAt、deletedAt字段
             timestamps : true,
             // 不需要created at字段
-            deleted_at: false,
             // 同时需要设置paranoid为true（此种模式下，删除数据时不会进行物理删除，而是设置deletedAt为当前时间
-            paranoid : false,
+            //paranoid : false,
             // 建立别名
             updated_at : 'updated_at',
             created_at : 'created_at',

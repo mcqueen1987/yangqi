@@ -58,7 +58,6 @@ var crawlerGroupBuy = function (html, params) {
             list.shop_price_old = $(element).find("span.tg-floor-price-old del").text();
             list.shop_sold = $(element).find("span.tg-floor-sold").text().replace(/已售/, "");
             list.date = new Date();
-            list.deleted_at = "2038-01-01";
             list.city = params.city;
             list.search_key = params.search_key;
             shop_list_data.push(list);

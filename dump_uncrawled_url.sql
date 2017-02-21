@@ -60,7 +60,6 @@ var un_crawled_url = sequelize.define(
             comment : '存储需要抓取的url',
             timestamps : true,
             paranoid : false,
-            delete_at : false,
             updated_at : 'updated_at',
             created_at : 'created_at',
             freezeTableName : true,   //是否自定义表名
