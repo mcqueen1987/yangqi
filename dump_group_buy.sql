@@ -79,17 +79,16 @@ var group_buy = sequelize.define(
                 'allowNull': true,
                 'field' : 'date',
                 'comment' : 'date抓取日期，以天为单位去重'
-            },
-            'deleted_at' : {
-                'type' : Sequelize.DATE,
-                'allowNull': true,
-                'field' : 'deleted_at',
-                'comment' : 'deleted_at'
             }
         },{
             comment : '工作室团购信息',
+            // 是否需要增加createdAt、updatedAt、deletedAt字段
             timestamps : true,
-            paranoid : true,
+            // 不需要created at字段
+            deleted_at: false,
+            // 同时需要设置paranoid为true（此种模式下，删除数据时不会进行物理删除，而是设置deletedAt为当前时间
+            paranoid : false,
+            // 建立别名
             updated_at : 'updated_at',
             created_at : 'created_at',
             freezeTableName : true,   //是否自定义表名
@@ -111,7 +110,6 @@ group_buy.sync({force: true}).then(function () {
         "city":"beijing",
         "search_key":"北京 朝阳 亲年路 健身 私教",
         "date":"2017-2-13",
-        "deleted_at":"2017-2-13",
   });
 });
 

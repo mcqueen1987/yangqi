@@ -65,8 +65,8 @@ var mytable = sequelize.define(
     },{
         comment : '工作室列表页信息',
         timestamps : true,
-        paranoid : true,
-        deleted_at : 'deleted_at', //删除字段deletedAt别名
+        paranoid : false,
+        deleted_at : false, //
         updated_at : 'updated_at',
         created_at : 'created_at',
         freezeTableName : true,   //是否自定义表名
