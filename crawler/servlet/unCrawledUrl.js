@@ -46,6 +46,7 @@ servlet.getOne = function(callback, params) {
             id : 1
         }
     }).then(function(result){
+        logger.info("---------final ret db is:" + JSON.stringify(result));
         callback(null,result);
     }).catch(function(err){
         logger.error('根据id查询un crawled url出错:'+err);

@@ -48,7 +48,7 @@ module.exports = function(sequelize,Sequelize){
         },{
             comment : '存储需要抓取的url',
             timestamps : true,
-            paranoid : true,
+            paranoid : false,
             updated_at : 'updated_at',
             created_at : 'created_at', 
             freezeTableName : true,   //是否自定义表名
