@@ -50,7 +50,8 @@ router.all('/crawler/getOneUnCrawledUrl',function(req,res,next){
 	params.type = 'group_buy';
     params.date = "2017-02-19";
     params.id=1;
-    unCrawledUrl.getOneUnCrawledUrl(params);
+    res = "2222";
+    // unCrawledUrl.getOneUnCrawledUrl(params, res);
 });
 
 /**

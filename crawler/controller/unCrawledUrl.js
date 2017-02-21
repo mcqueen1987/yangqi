@@ -20,7 +20,7 @@ function doGetOneUnCrawledUrl(callback, map) {
     console.log('in getDataFromDB ---------');
     async.series([
         function () {
-            unCrawledUrl.getOne(function ('', result) {
+            unCrawledUrl.getOne(function (str, result) {
                 console.log(' --------groupbuy saveGroupBuyToDB ---------' + JSON.stringify(result));
                 callback(result);
             }, map);
@@ -43,9 +43,8 @@ function getOneUnCrawledUrl(params) {
         setTimeout(function () {
             console.log('------getOneUnCrawledUrl  --------async.eachSeries ------');
             doGetOneUnCrawledUrl(function (result) {
-                if (result === '') {
+                if (result !== '') {
                     console.log('=============== getOneUnCrawledUrl data success===============');
-                    return result;
                 } else {
                     console.log('=============== getOneUnCrawledUrl data fail===============');
                     return false;
