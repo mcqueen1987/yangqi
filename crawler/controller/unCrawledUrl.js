@@ -16,12 +16,12 @@ var _systemConfig = require('../../common/servlet/_systemConfig.js').servlet;
 var common = require('../../utils/common.js')
 
 //根据问题查询出该问题以及该问题的答案
-function getDataFromDB(callback, map) {
+function doGetOneUnCrawledUrl(callback, map) {
     console.log('in getDataFromDB ---------');
     async.series([
-        function (callback) {
-            unCrawledUrl.findAll(function (result) {
-                console.log(' --------groupbuy saveGroupBuyToDB call back success in sava data ---------' + result.substring(0, 64));
+        function () {
+            unCrawledUrl.getOne(function ('', result) {
+                console.log(' --------groupbuy saveGroupBuyToDB ---------' + JSON.stringify(result));
                 callback(result);
             }, map);
         },		//先删除数据库中与该问题相关的数据
@@ -32,19 +32,8 @@ function getDataFromDB(callback, map) {
         } else {
             console.log({quiz: result[0], result: result[1], date: result[0]});
         }
-        callback(null);
     });
 }
-
-/**
- * 对单个页面进行解析，不包括翻页
- */
-var doGetOneUnCrawledUrl = function(callback, params) {
-    var ret = getDataFromDB(params);
-    callback(ret); 
-}
-
-
 
 /**
  * 获取未抓取过的url给调用方
